@@ -3,12 +3,8 @@ I will build model to api, it isn't complete.
 
 I still test by using Flask, so I won't upload new source now
 # Requirement
-With GPU, you need many app relate to darknet: 
-* Visual Studio(I use 2019)
-* CUDA vs CUDNN for using GPU (I use 11.4 vs 8.2.4)
-* OPENCV (I use 3.4)
 
-With CPU, you just install Visual studio vs Opencv
+* CUDA vs CUDNN for using GPU (I use 11.4 vs 8.2.4)
 # Notice
 
 Any thing you have to do: Extract all file need.rar in need folder and copy all from that to the folder(gpu/cpu) that you can run.
@@ -17,11 +13,11 @@ Any thing you have to do: Extract all file need.rar in need folder and copy all 
 ## With CPU
 #for image
 
-darknet_no_gpu.exe detector test data/obj.data cfg/yolov4.cfg Model/yolov4-custom_best.weights ../image/demo.png -thresh 0.3 -dont_show
+darknet_no_gpu.exe detector test data/obj.data cfg/yolov4.cfg Model/yolov4-custom_best.weights ../image/demo.png
 
 #for video
 
-darknet_no_gpu.exe detector demo data/obj.data cfg/yolov4.cfg Model/yolov4-custom_best.weights ../video/video.mp4 -thresh 0.8 -dont_show -out_filename ../video/output.mp4
+darknet_no_gpu.exe detector demo data/obj.data cfg/yolov4.cfg Model/yolov4-custom_best.weights ../video/video.mp4 -out_filename ../video/output.mp4
 
 #camera
 
