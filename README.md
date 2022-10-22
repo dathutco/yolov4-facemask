@@ -1,5 +1,5 @@
 # yolov4-facemask
-I will build model to api, it isn't complete.
+I will build model to api.
 
 I still test by using Flask, so I won't upload new source now
 # Requirement
@@ -9,6 +9,10 @@ I still test by using Flask, so I won't upload new source now
 
 Any thing you have to do: Extract all file need.rar in need folder and copy all from that to the folder(gpu/cpu) that you can run.
 # How to run: on GPU or on CPU
+
+## Two way to run: use darknet and use build API
+
+# +For Darknet
 
 ## With CPU
 #for image
@@ -26,3 +30,12 @@ darknet_no_gpu.exe detector demo data/obj.data cfg/yolov4.cfg Model/yolov4-custo
 ## With GPU
 
 You just replace darknet_no_gpu.exe to darknet.exe
+
+# -For API
+
+On gpu dir, you can see $api.py$, $backup.py$, $client.py$ vs $newway.py$
+
+* $backup.py$: for build a api, but it slow cause I write for cpu computer
+* $api.py$: as same as backup, but this can run with gpu, but you must install open-cv with a special way.
+* $client.py$: file from user that want to use api
+* For $new.py$: this is improvement for api.py file, but it has some proglem with box

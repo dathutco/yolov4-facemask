@@ -32,7 +32,7 @@ net=cv2.dnn.readNet(weight,modelcfg)
 net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
 net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA)
 layer_names = net.getLayerNames()
-output_layers = [layer_names[i - 1] for i in net.getUnconnectedOutLayers()]
+output_layers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
 
 def saveFile(name,file):
     path_to_save = os.path.join(app.config['UPLOAD_FOLDER'], f"{name}.{file.filename.split('.')[-1]}")
@@ -49,10 +49,10 @@ def detect(iH,iW,outs):
             class_id = np.argmax(scores)
             confidence = scores[class_id]
             if confidence > 0.7:
-                center_x = int(detection[0] * iW)
-                center_y = int(detection[1] * iH)
-                w = int(detection[2] * iW)
-                h = int(detection[3] * iH)
+                center_x = float(detection[0] * iW)
+                center_y = float(detection[1] * iH)
+                w = float(detection[2] * iW)
+                h = float(detection[3] * iH)
                 x = center_x - w / 2
                 y = center_y - h / 2
                 class_ids.append(class_id)
@@ -96,16 +96,17 @@ def image():
         info=""
         for i in indexes:
             lst=[]
+            i=int(i)
             ## append label
             lst.append(str(classes[class_ids[i]]))
             # append x, y, weight, height
-            x, y, w, h=boxes[i]
+            x, y, w, h=[float(f) for f in boxes[i]]
             lst.extend(boxes[i])
             ## append confidences
             lst.append(confidences[i])
             res.append(lst)
 
-            info+=f"{class_ids[i]} {x} {y} {w} {h}\n"
+            info+=f"{class_ids[int(i)]} {x} {y} {w} {h}\n"
 
         pathsave = os.path.join(app.config['label'], f"{name}.txt")
         f = open(pathsave, "w")

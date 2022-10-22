@@ -55,8 +55,8 @@ def processCam(address):
             break
     vid.release()
     cv2.destroyAllWindows()
-    time.sleep(2)
-    os.remove(name)
+    time.sleep(10)
+
 
 address="http://127.0.0.1:30701"
 path="C:/Users/Phat Dat/Downloads/1.png"

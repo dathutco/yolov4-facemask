@@ -29,8 +29,8 @@ modelcfg="cfg/yolov4.cfg"
 weight="Model/yolov4-custom_best.weights"
 ## Load model
 net=cv2.dnn.readNet(weight,modelcfg)
-net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
-net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA)
+# net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
+# net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA)
 layer_names = net.getLayerNames()
 output_layers = [layer_names[i - 1] for i in net.getUnconnectedOutLayers()]
 
