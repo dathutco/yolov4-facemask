@@ -36,8 +36,8 @@ model.setInputParams(size=(416, 416), scale=1/255, swapRB=True)
 layer_names = net.getLayerNames()
 output_layers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
 
-def saveFile(name,file):
-    path_to_save = os.path.join(app.config['UPLOAD_FOLDER'], f"{name}.{file.filename.split('.')[-1]}")
+def saveFile(name,file,extension):
+    path_to_save = os.path.join(app.config['UPLOAD_FOLDER'], f"{name}.{extension}")
     file.save(path_to_save)
     return path_to_save
 
@@ -78,7 +78,7 @@ def image():
         print(f"from: {name}")
         img = request.files['file']
         ## SAve file
-        path_to_save = saveFile(name,img)
+        path_to_save = saveFile(name,img, "jpg")
         # image=Image.open(img)
         image = cv2.imread(path_to_save)
 
@@ -118,7 +118,7 @@ def video():
     print(f"from: {name}") 
     vid = request.files['file']
 
-    path_to_save = saveFile(vid.filename.split('.')[0],vid)
+    path_to_save = saveFile(vid.filename.split('.')[0], vid, vid.filename.split('.')[-1])
     # path_to_save = saveFile(name,video)
 
     video = cv2.VideoCapture(path_to_save)

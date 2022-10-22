@@ -43,10 +43,9 @@ def processCam(address):
     vid = cv2.VideoCapture(0)
     while(True):
         _, frame = vid.read()
-        name="temp.jpg"
-        cv2.imwrite(name, frame)
-
-        files={'file': open(name,"rb")}
+        _, im_with_type = cv2.imencode(".jpg", frame)
+        byte_im = im_with_type.tobytes()
+        files={'file': byte_im}
         rp=requests.post(address, files=files)
         frame=process(rp.text,frame)
         
@@ -61,5 +60,5 @@ def processCam(address):
 address="http://127.0.0.1:30701"
 path="C:/Users/Phat Dat/Downloads/1.png"
 
-# processImage(address,path)
-processCam(address)  
+processImage(address,path)
+# processCam(address)  
