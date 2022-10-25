@@ -1,5 +1,6 @@
 # from PIL import Image
 from asyncio.windows_events import NULL
+import socket
 from flask import Flask
 from flask import request
 from datetime import datetime
@@ -12,21 +13,30 @@ import numpy as np
 app = Flask(__name__)
 
 ## load label
-app.config['UPLOAD_FOLDER'] = "imgSent"
-app.config['label'] = "labelImg"
-if not os.path.exists(app.config['UPLOAD_FOLDER']):
-    os.makedirs(app.config['UPLOAD_FOLDER'])
-if not os.path.exists(app.config['label']):
-    os.makedirs(app.config['label'])
+app.config['UPLOAD_FOLDER'] = "RecievedImg"
+app.config['LABEL'] = "RecievedLabel"
+app.config['VIDEO'] = "RecievedVideo"
 
+def makeDir(dir):
+    if not os.path.exists(dir):
+        os.makedirs(dir)
+
+makeDir(app.config['UPLOAD_FOLDER'])
+makeDir(app.config['LABEL'])
+makeDir(app.config['VIDEO'])
+
+formatDatetime='%d-%m-%Y_%H-%M-%S-%f'
+skipTime=4
 classes_file = "data/obj.names"
 with open(classes_file, 'r') as f:
     classes = [line.strip() for line in f.readlines()]
+
 ### color green vs red
 colors=[(0, 255, 0),(0, 0, 255)]
 ##file model vs config
 modelcfg="cfg/yolov4.cfg"
 weight="Model/yolov4-custom_best.weights"
+
 ## Load model
 net=cv2.dnn.readNet(weight,modelcfg)
 net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
@@ -36,9 +46,12 @@ model.setInputParams(size=(416, 416), scale=1/255, swapRB=True)
 layer_names = net.getLayerNames()
 output_layers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
 
-def saveFile(name,file,extension):
-    path_to_save = os.path.join(app.config['UPLOAD_FOLDER'], f"{name}.{extension}")
-    cv2.imwrite(path_to_save,file)
+def saveFile(dir,file,name,extension):
+    path_to_save = os.path.join(dir, f"{name}.{extension}")
+    try:
+        cv2.imwrite(path_to_save,file)
+    except:
+        file.save(path_to_save)
     return path_to_save
 
 def detect(iH,iW,outs):
@@ -74,18 +87,15 @@ def draw(img, class_id, confidence, x, y, x_plus_w, y_plus_h):
 def image():
     if request.method=='POST':
         ##Take request
-        name=f"{datetime.now().strftime('%d-%m-%Y_%H-%M-%S-%f')}"
+        name=f"{datetime.now().strftime(formatDatetime)}"
         print(f"from: {name}")
         img = request.files['file']
 
-        ## SAve file
-        # path_to_save = saveFile(name,img, "jpg")
-        # image = cv2.imread(path_to_save)
         file_bytes = np.fromfile(img, np.uint8)
         image = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
         res=[]
         
-        print(f"to:   {datetime.now().strftime('%d-%m-%Y_%H-%M-%S-%f')}")
+        print(f"to:   {datetime.now().strftime(formatDatetime)}")
         ## detect
         classids, scores, boxes = model.detect(image, 0.5, 0.4)
         ## take index in list 
@@ -103,27 +113,35 @@ def image():
 
             info+=f"{int(classid)} {x} {y} {w} {h}\n"
 
-        pathsave = os.path.join(app.config['label'], f"{name}.txt")
-        if info!="" and [value for value in scores if value<0.9]==[]:
+        pathsave = os.path.join(app.config['LABEL'], f"{name}.txt")
+
+        if os.listdir(app.config['UPLOAD_FOLDER']):
+            last=datetime.strptime(os.listdir(app.config['UPLOAD_FOLDER'])[-1].split('.')[0], formatDatetime)
+        else:
+            last=datetime.min
+        now=datetime.strptime(name, formatDatetime)
+        
+        ### Consider label!=NULL,confidences>=0.9 and accept time to write new image
+        if info!="" and [value for value in scores if value<0.9]==[] and (now-last).seconds>skipTime:
+            print(f"collected image with name {name}.jpg and label with name {name}.txt")
             ##save image
-            path_to_save = saveFile(name,image, "jpg")
-            re = cv2.imread(path_to_save)
+            path_to_save = saveFile(app.config['UPLOAD_FOLDER'],image,name, "jpg")
             f = open(pathsave, "w")
             # save label
             f.write(info)
             f.close()
-        print(f"to:   {datetime.now().strftime('%d-%m-%Y_%H-%M-%S-%f')}")
+        print(f"to:   {datetime.now().strftime(formatDatetime)}")
         return res
     return {}
 
 @app.route('/video', methods=['POST'] )
 def video():
-    name=f"{datetime.now().strftime('%d-%m-%Y_%H-%M-%S-%f')}"
+    name=f"{datetime.now().strftime(formatDatetime)}"
     print(f"from: {name}") 
     vid = request.files['file']
 
-    path_to_save = saveFile(vid.filename.split('.')[0], vid, vid.filename.split('.')[-1])
-    # path_to_save = saveFile(name,video)
+    path_to_save = saveFile(app.config['VIDEO'], vid, vid.filename.split('.')[0], "mp4")
+    # path_to_save = saveFile(app.config['VIDEO'],vid, name, "mp4")
 
     video = cv2.VideoCapture(path_to_save)
 
@@ -145,12 +163,14 @@ def video():
         if key == 27:
             break
     video.release()
-    newPath=os.path.join(app.config['UPLOAD_FOLDER'], f"{name}.{vid.filename.split('.')[-1]}").replace("\\","/")
+    newPath=os.path.join(app.config['VIDEO'], f"{name}.{vid.filename.split('.')[-1]}").replace("\\","/")
 
     # cv2.imwrite(newPath, video)
 
-    print(f"to:   {datetime.now().strftime('%d-%m-%Y_%H-%M-%S-%f')}")
-    return newPath
+    print(f"to:   {datetime.now().strftime(formatDatetime)}")
+    if not os.path.exists(newPath):
+        return request.host_url+newPath
+    return "Cancel"
 
 # Start Backend
 if __name__ == '__main__':

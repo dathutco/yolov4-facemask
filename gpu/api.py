@@ -12,13 +12,20 @@ import numpy as np
 app = Flask(__name__)
 
 ## load label
-app.config['UPLOAD_FOLDER'] = "imgSent"
-app.config['label'] = "labelImg"
-if not os.path.exists(app.config['UPLOAD_FOLDER']):
-    os.makedirs(app.config['UPLOAD_FOLDER'])
-if not os.path.exists(app.config['label']):
-    os.makedirs(app.config['label'])
+app.config['UPLOAD_FOLDER'] = "RecievedImg"
+app.config['LABEL'] = "RecievedLabel"
+app.config['VIDEO'] = "RecievedVideo"
 
+def makeDir(dir):
+    if not os.path.exists(dir):
+        os.makedirs(dir)
+
+makeDir(app.config['UPLOAD_FOLDER'])
+makeDir(app.config['LABEL'])
+makeDir(app.config['VIDEO'])
+
+formatDatetime='%d-%m-%Y_%H-%M-%S-%f'
+skipTime=4
 classes_file = "data/obj.names"
 with open(classes_file, 'r') as f:
     classes = [line.strip() for line in f.readlines()]
@@ -34,9 +41,12 @@ net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA)
 layer_names = net.getLayerNames()
 output_layers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
 
-def saveFile(name,file):
-    path_to_save = os.path.join(app.config['UPLOAD_FOLDER'], f"{name}.{file.filename.split('.')[-1]}")
-    file.save(path_to_save)
+def saveFile(dir,file,name,extension):
+    path_to_save = os.path.join(dir, f"{name}.{extension}")
+    try:
+        cv2.imwrite(path_to_save,file)
+    except:
+        file.save(path_to_save)
     return path_to_save
 
 def detect(iH,iW,outs):
@@ -72,7 +82,7 @@ def draw(img, class_id, confidence, x, y, x_plus_w, y_plus_h):
 def image():
     if request.method=='POST':
         ##Take request
-        name=f"{datetime.now().strftime('%d-%m-%Y_%H-%M-%S-%f')}"
+        name=f"{datetime.now().strftime(formatDatetime)}"
         print(f"from: {name}")
         img = request.files['file']
         file_bytes = np.fromfile(img, np.uint8)
@@ -80,13 +90,13 @@ def image():
 
         res=[]
 
-        print(f"to:   {datetime.now().strftime('%d-%m-%Y_%H-%M-%S-%f')}")
+        print(f"to:   {datetime.now().strftime(formatDatetime)}")
         # build
         blob = cv2.dnn.blobFromImage(image,1 / 255.0,(416, 416),swapRB=True, crop=False)
         net.setInput(blob)
         outs = net.forward(output_layers)
 
-        print(f"to:   {datetime.now().strftime('%d-%m-%Y_%H-%M-%S-%f')}")
+        print(f"to:   {datetime.now().strftime(formatDatetime)}")
         ## detect
         class_ids,confidences,boxes=detect(image.shape[:2][0],image.shape[:2][1],outs)
         ## take index in list 
@@ -106,27 +116,34 @@ def image():
 
             info+=f"{class_ids[int(i)]} {x} {y} {w} {h}\n"
 
-        pathsave = os.path.join(app.config['label'], f"{name}.txt")
-        if info!="" and [value for value in confidences if value<0.9]==[]:
+        pathsave = os.path.join(app.config['LABEL'], f"{name}.txt")
+
+        if os.listdir(app.config['UPLOAD_FOLDER']):
+            last=datetime.strptime(os.listdir(app.config['UPLOAD_FOLDER'])[-1].split('.')[0], formatDatetime)
+        else:
+            last=datetime.min
+        now=datetime.strptime(name, formatDatetime)
+
+        ### Consider label!=NULL,confidences>=0.9 and accept time to write new image
+        if info!="" and [value for value in confidences if value<0.9]==[] and (now-last).seconds>skipTime:
             ##save image
-            path_to_save = saveFile(name,image, "jpg")
-            re = cv2.imread(path_to_save)
+            path_to_save = saveFile(app.config['UPLOAD_FOLDER'],image,name, "jpg")
             f = open(pathsave, "w")
             # save label
             f.write(info)
             f.close()
-        print(f"to:   {datetime.now().strftime('%d-%m-%Y_%H-%M-%S-%f')}")
+        print(f"to:   {datetime.now().strftime(formatDatetime)}")
         return res
     return {}
 
 @app.route('/video', methods=['POST'] )
 def video():
-    name=f"{datetime.now().strftime('%d-%m-%Y_%H-%M-%S-%f')}"
+    name=f"{datetime.now().strftime(formatDatetime)}"
     print(f"from: {name}") 
     vid = request.files['file']
 
-    path_to_save = saveFile(vid.filename.split('.')[0],vid)
-    # path_to_save = saveFile(name,video)
+    path_to_save = saveFile(app.config['VIDEO'], vid, vid.filename.split('.')[0], "mp4")
+    # path_to_save = saveFile(app.config['VIDEO'],vid, name, "mp4")
 
     video = cv2.VideoCapture(path_to_save)
 
@@ -151,7 +168,7 @@ def video():
             break
     video.release()
 
-    print(f"to:   {datetime.now().strftime('%d-%m-%Y_%H-%M-%S-%f')}")
+    print(f"to:   {datetime.now().strftime(formatDatetime)}")
     return path_to_save
 
 # Start Backend
