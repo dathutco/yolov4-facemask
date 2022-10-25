@@ -40,7 +40,7 @@ def processImage(address,path):
     cv2.destroyAllWindows()
 
 def processCam(address):  
-    vid = cv2.VideoCapture(0)
+    vid = cv2.VideoCapture(0,cv2.CAP_DSHOW)
     while(True):
         _, frame = vid.read()
         _, im_with_type = cv2.imencode(".jpg", frame)
@@ -60,5 +60,5 @@ def processCam(address):
 address="http://127.0.0.1:30701"
 path="C:/Users/Phat Dat/Downloads/1.png"
 
-processImage(address,path)
-# processCam(address)  
+# processImage(address,path)
+processCam(address)  

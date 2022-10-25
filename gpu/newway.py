@@ -38,7 +38,7 @@ output_layers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
 
 def saveFile(name,file,extension):
     path_to_save = os.path.join(app.config['UPLOAD_FOLDER'], f"{name}.{extension}")
-    file.save(path_to_save)
+    cv2.imwrite(path_to_save,file)
     return path_to_save
 
 def detect(iH,iW,outs):
@@ -77,15 +77,14 @@ def image():
         name=f"{datetime.now().strftime('%d-%m-%Y_%H-%M-%S-%f')}"
         print(f"from: {name}")
         img = request.files['file']
+
         ## SAve file
-        path_to_save = saveFile(name,img, "jpg")
-        # image=Image.open(img)
-        image = cv2.imread(path_to_save)
-
+        # path_to_save = saveFile(name,img, "jpg")
+        # image = cv2.imread(path_to_save)
+        file_bytes = np.fromfile(img, np.uint8)
+        image = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
         res=[]
-
-        print(f"to:   {datetime.now().strftime('%d-%m-%Y_%H-%M-%S-%f')}")
-
+        
         print(f"to:   {datetime.now().strftime('%d-%m-%Y_%H-%M-%S-%f')}")
         ## detect
         classids, scores, boxes = model.detect(image, 0.5, 0.4)
@@ -105,9 +104,14 @@ def image():
             info+=f"{int(classid)} {x} {y} {w} {h}\n"
 
         pathsave = os.path.join(app.config['label'], f"{name}.txt")
-        f = open(pathsave, "w")
-        f.write(info)
-        f.close()
+        if info!="" and [value for value in scores if value<0.9]==[]:
+            ##save image
+            path_to_save = saveFile(name,image, "jpg")
+            re = cv2.imread(path_to_save)
+            f = open(pathsave, "w")
+            # save label
+            f.write(info)
+            f.close()
         print(f"to:   {datetime.now().strftime('%d-%m-%Y_%H-%M-%S-%f')}")
         return res
     return {}
@@ -126,26 +130,27 @@ def video():
     while True:
         _, frame = video.read()
 
-        blob = cv2.dnn.blobFromImage(frame,1 / 255.0,(416, 416),swapRB=True, crop=False)
-        net.setInput(blob)
-        outs = net.forward(output_layers)
+        classids, scores, boxes = model.detect(frame, 0.5, 0.4)
+        ## take index in list 
+        info=""
+        for (classid, score, box) in zip(classids, scores, boxes):
 
-        class_ids,confidences,boxes=detect(frame.shape[:2][0],frame.shape[:2][1],outs)
-        indexes = cv2.dnn.NMSBoxes(boxes, confidences, 0.5, 0.4)
-
-        ### draw
-        for i in indexes:
-            x, y, w, h = boxes[i]
+            # x, y, weight, height
+            x, y, w, h=[float(f) for f in box]
             ### draw box
-            draw(frame, class_ids[i], confidences[i], round(x), round(y), round(x + w), round(y + h))
+            draw(frame, int(classid), float(score), round(x), round(y), round(x + w), round(y + h))
+        
         cv2.imshow("Image", frame)
         key = cv2.waitKey(1)
         if key == 27:
             break
     video.release()
+    newPath=os.path.join(app.config['UPLOAD_FOLDER'], f"{name}.{vid.filename.split('.')[-1]}").replace("\\","/")
+
+    # cv2.imwrite(newPath, video)
 
     print(f"to:   {datetime.now().strftime('%d-%m-%Y_%H-%M-%S-%f')}")
-    return path_to_save
+    return newPath
 
 # Start Backend
 if __name__ == '__main__':

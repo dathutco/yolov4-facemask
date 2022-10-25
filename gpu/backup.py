@@ -7,6 +7,7 @@ from datetime import datetime
 import os
 import cv2
 import numpy as np
+import time
 
 # Create Flask Server Backend
 app = Flask(__name__)
@@ -36,7 +37,7 @@ output_layers = [layer_names[i - 1] for i in net.getUnconnectedOutLayers()]
 
 def saveFile(name,file):
     path_to_save = os.path.join(app.config['UPLOAD_FOLDER'], f"{name}.{file.filename.split('.')[-1]}")
-    file.save(path_to_save)
+    cv2.imwrite(path_to_save,file)
     return path_to_save
 
 def detect(iH,iW,outs):
@@ -75,10 +76,8 @@ def image():
         name=f"{datetime.now().strftime('%d-%m-%Y_%H-%M-%S-%f')}"
         print(f"from: {name}")
         img = request.files['file']
-        ## SAve file
-        path_to_save = saveFile(name,img)
-        # image=Image.open(img)
-        image = cv2.imread(path_to_save)
+        file_bytes = np.fromfile(img, np.uint8)
+        image = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
 
         res=[]
 
@@ -108,9 +107,14 @@ def image():
             info+=f"{class_ids[i]} {x} {y} {w} {h}\n"
 
         pathsave = os.path.join(app.config['label'], f"{name}.txt")
-        f = open(pathsave, "w")
-        f.write(info)
-        f.close()
+        if info!="" and [value for value in confidences if value<0.9]==[]:
+            ##save image
+            path_to_save = saveFile(name,image, "jpg")
+            re = cv2.imread(path_to_save)
+            f = open(pathsave, "w")
+            # save label
+            f.write(info)
+            f.close()
         print(f"to:   {datetime.now().strftime('%d-%m-%Y_%H-%M-%S-%f')}")
         return res
     return {}
