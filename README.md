@@ -40,4 +40,4 @@ On gpu dir, you can see $api.py$, $backup.py$, $client.py$ vs $newway.py$
 * $backup.py$: for build a api, but it slow cause I write for cpu computer
 * $api.py$: as same as backup, but this can run with gpu, but you must install open-cv with a special way.
 * $client.py$: file from user that want to use api
-* For $new.py$: this is improvement for api.py file, but it has some proglem with box
+* For $new.py$: this is improvement for api.py file.
