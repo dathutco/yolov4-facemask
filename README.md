@@ -35,6 +35,8 @@ You just replace darknet_no_gpu.exe to darknet.exe
 
 On gpu dir, you can see $api.py$, $backup.py$, $client.py$ vs $newway.py$
 
+## If you don't have GPU, run "backup" file, else see how to active opencv using GPU, run "new" file.
+
 * $backup.py$: for build a api, but it slow cause I write for cpu computer
 * $api.py$: as same as backup, but this can run with gpu, but you must install open-cv with a special way.
 * $client.py$: file from user that want to use api
