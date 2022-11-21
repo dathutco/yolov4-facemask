@@ -1,7 +1,12 @@
 # yolov4-facemask
 I will build model to api.
 
-I still test by using Flask, so I won't upload new source now
+The Web allow user validate the accuracy of predicting label. Now, I just save image and file label (label, x,y,w,h) when the confidence >0.9.
+
+I save on local and Firebase (something wrong from Firebase so I push all to both, still tuning)
+
+This project also have Data Visualization.
+
 # Requirement
 
 * CUDA vs CUDNN for using GPU (I use 11.4 vs 8.2.4)
@@ -36,6 +41,7 @@ You just replace darknet_no_gpu.exe to darknet.exe
 On gpu dir, you can see $api.py$, $backup.py$, $client.py$ vs $newway.py$
 
 * $backup.py$: for build a api, but it slow cause I write for cpu computer
-* $api.py$: as same as backup, but this can run with gpu, but you must install open-cv with a special way.
 * $client.py$: file from user that want to use api
+* $app.py: run on web
+
 * For $new.py$: this is improvement for api.py file, but it has some proglem with box

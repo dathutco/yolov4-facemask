@@ -1,5 +1,3 @@
-# from PIL import Image
-from asyncio.windows_events import NULL
 from flask import Flask
 from flask import request
 from datetime import datetime
@@ -7,7 +5,8 @@ from datetime import datetime
 import os
 import cv2
 import numpy as np
-import time
+from conMatrix import *
+import xml.etree.ElementTree as ET
 
 # Create Flask Server Backend
 app = Flask(__name__)
@@ -16,6 +15,10 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = "RecievedImg"
 app.config['LABEL'] = "RecievedLabel"
 app.config['VIDEO'] = "RecievedVideo"
+
+annotations="./conMatrix/annotations"
+dirMask="conMatrix/mask"
+dirNoMask="conMatrix/nomask"
 
 def makeDir(dir):
     if not os.path.exists(dir):
@@ -136,6 +139,70 @@ def image():
         return res
     return {}
 
+
+def getLabel(dir,file):
+    image=cv2.imread(dir+"/"+file)
+    classids,_,_ = model.detect(image, 0.5, 0.4)
+    tree = ET.parse(f'{annotations}/{file[:-4]}.xml')
+    object=tree.find('object')
+    try:
+        return str(classes[int(classids[0])]),object.find("name").text
+    except:
+        return str(classes[1]),object.find("name").text
+
+
+@app.route('/resetValidate', methods=['GET'] )
+def resetValidate():
+    data = {'predict': [], 'label': []}
+    df = pd.DataFrame(data=data)
+
+    mask=os.listdir(dirMask)    
+    nomask=os.listdir(dirNoMask)
+    for i,j in zip(mask,nomask):
+        rowi=getLabel(dirMask,i)
+        rowj=getLabel(dirNoMask,j)
+        df.loc[len(df.index)] = rowi
+        df.loc[len(df.index)] = rowj
+    """
+    Then save to table
+    """
+    json_data = df.to_json(orient='values')
+    return json_data
+
+
+@app.route('/score', methods=['GET'] )
+def score():
+    data = {'predict': ["with_mask","with_mask","without_mask","with_mask","with_mask","without_mask","without_mask"], 'label': ["with_mask","with_mask","without_mask","with_mask","without_mask","without_mask","without_mask"]}
+    df = pd.DataFrame(data=data)
+
+    matrix=ConfusionMatrix(df)
+    acc,recall,precision,f1=matrix.allScore()
+    return {"accuracy":acc,"recall":recall,"precision":precision,"f1-score":f1}
+
+
+@app.route('/validate', methods=['GET'] )
+def validate():
+    predict = request.form.get('predict')
+    key = bool(request.form.get('key'))
+
+    if(key==True):
+        label=predict
+    else:
+        if(predict==str(classes[0])):
+            label=str(classes[1])
+        else:
+            label=str(classes[0])
+    
+    """
+    edit database
+    """
+    data = {'predict': ["with_mask"], 'label': ["with_mask"]}
+    df = pd.DataFrame(data=data)
+    df.loc[len(df.index)] = [predict,label]
+    
+    return [predict,label]
+
+
 @app.route('/video', methods=['POST'] )
 def video():
     name=f"{datetime.now().strftime(formatDatetime)}"
@@ -146,6 +213,13 @@ def video():
     # path_to_save = saveFile(app.config['VIDEO'],vid, name, "mp4")
     video = cv2.VideoCapture(path_to_save)
 
+    w = video.get(cv2.CAP_PROP_FRAME_WIDTH)
+    h = video.get(cv2.CAP_PROP_FRAME_HEIGHT)
+    fps = video.get(cv2.CAP_PROP_FPS) 
+    dir=app.config['VIDEO']
+    
+    out = cv2.VideoWriter(f'{dir}/{name}.mp4', -1, fps, (int(w),int(h)))
+    
     while True:
         _, frame = video.read()
 
@@ -161,15 +235,17 @@ def video():
             x, y, w, h = boxes[i]
             ### draw box
             draw(frame, class_ids[i], confidences[i], round(x), round(y), round(x + w), round(y + h))
+        out.write(frame)
         cv2.imshow("Image", frame)
         key = cv2.waitKey(1)
         if key == 27:
             break
     video.release()
-
+    out.release()
+    cv2.destroyAllWindows()
     print(f"to:   {datetime.now().strftime(formatDatetime)}")
     return path_to_save
 
 # Start Backend
 if __name__ == '__main__':
-    app.run(port=30701)
+    app.run(port=30701,debug=True)
