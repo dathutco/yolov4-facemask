@@ -1,6 +1,3 @@
-# from PIL import Image
-from asyncio.windows_events import NULL
-import socket
 from flask import Flask
 from flask import request
 from datetime import datetime
@@ -8,6 +5,11 @@ from datetime import datetime
 import os
 import cv2
 import numpy as np
+from conMatrix import *
+import xml.etree.ElementTree as ET
+# import firebase_admin
+# from firebase_admin import credentials
+# from firebase_admin import db
 
 # Create Flask Server Backend
 app = Flask(__name__)
@@ -16,6 +18,17 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = "RecievedImg"
 app.config['LABEL'] = "RecievedLabel"
 app.config['VIDEO'] = "RecievedVideo"
+
+# cred = credentials.Certificate('./authentication.json')
+# default_app = firebase_admin.initialize_app(cred, {
+#     'databaseURL': "https://project-realtime-161a1-default-rtdb.firebaseio.com/"})
+
+# ref = db.reference("/recognizations/face_mark")
+
+
+annotations="./conMatrix/annotations"
+dirMask="conMatrix/mask"
+dirNoMask="conMatrix/nomask"
 
 def makeDir(dir):
     if not os.path.exists(dir):
@@ -46,6 +59,7 @@ model.setInputParams(size=(416, 416), scale=1/255, swapRB=True)
 layer_names = net.getLayerNames()
 output_layers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
 
+
 def saveFile(dir,file,name,extension):
     path_to_save = os.path.join(dir, f"{name}.{extension}")
     try:
@@ -54,33 +68,75 @@ def saveFile(dir,file,name,extension):
         file.save(path_to_save)
     return path_to_save
 
-def detect(iH,iW,outs):
-    class_ids = []
-    confidences = []
-    boxes = []
-    for out in outs:
-        for detection in out:
-            scores = detection[5:]
-            class_id = np.argmax(scores)
-            confidence = scores[class_id]
-            if confidence > 0.7:
-                center_x = float(detection[0] * iW)
-                center_y = float(detection[1] * iH)
-                w = float(detection[2] * iW)
-                h = float(detection[3] * iH)
-                x = center_x - w / 2
-                y = center_y - h / 2
-                class_ids.append(class_id)
-                
-                confidences.append(float(confidence))
-                boxes.append([x, y, w, h])
-    return class_ids,confidences,boxes
+def getLabel(dir,file):
+    image=cv2.imread(dir+"/"+file)
+    classids,_,_ = model.detect(image, 0.5, 0.4)
+    tree = ET.parse(f'{annotations}/{file[:-4]}.xml')
+    object=tree.find('object')
+    try:
+        return str(classes[int(classids[0])]),object.find("name").text
+    except:
+        return str(classes[1]),object.find("name").text
+
+
+@app.route('/resetValidate', methods=['GET'] )
+def resetValidate():
+    data = {'predict': [], 'label': []}
+    df = pd.DataFrame(data=data)
+
+    mask=os.listdir(dirMask)    
+    nomask=os.listdir(dirNoMask)
+    for i,j in zip(mask,nomask):
+        rowi=getLabel(dirMask,i)
+        rowj=getLabel(dirNoMask,j)
+        df.loc[len(df.index)] = rowi
+        df.loc[len(df.index)] = rowj
+    """
+    Then save to table
+    """
+    json_data = df.to_json(orient='values')
+    return json_data
+
+
+@app.route('/score', methods=['GET'] )
+def score():
+    data = {'predict': ["with_mask","with_mask","without_mask","with_mask","with_mask","without_mask","without_mask"], 'label': ["with_mask","with_mask","without_mask","with_mask","without_mask","without_mask","without_mask"]}
+    df = pd.DataFrame(data=data)
+
+    matrix=ConfusionMatrix(df)
+    acc,recall,precision,f1=matrix.allScore()
+    return {"accuracy":acc,"recall":recall,"precision":precision,"f1-score":f1}
+
+
+@app.route('/validate', methods=['GET'] )
+def validate():
+    predict = request.form.get('predict')
+    key = bool(request.form.get('key'))
+
+    if(key==True):
+        label=predict
+    else:
+        if(predict==str(classes[0])):
+            label=str(classes[1])
+        else:
+            label=str(classes[0])
+    
+    """
+    edit database
+    """
+    data = {'predict': ["with_mask"], 'label': ["with_mask"]}
+    df = pd.DataFrame(data=data)
+    df.loc[len(df.index)] = [predict,label]
+    
+    return [predict,label]
+
 
 ## draw
 def draw(img, class_id, confidence, x, y, x_plus_w, y_plus_h):
     label = str(classes[class_id])+" ("+ str(round(confidence*100,2)) +"%)"
     cv2.rectangle(img, (x, y), (x_plus_w, y_plus_h), colors[class_id], 2)
     cv2.putText(img, label, (x-10, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, colors[class_id], 2)
+
 
 ### App default
 @app.route('/', methods=['POST','GET'] )
@@ -134,6 +190,7 @@ def image():
         return res
     return {}
 
+
 @app.route('/video', methods=['POST'] )
 def video():
     name=f"{datetime.now().strftime(formatDatetime)}"
@@ -144,6 +201,13 @@ def video():
     # path_to_save = saveFile(app.config['VIDEO'],vid, name, "mp4")
 
     video = cv2.VideoCapture(path_to_save)
+
+    w = video.get(cv2.CAP_PROP_FRAME_WIDTH)
+    h = video.get(cv2.CAP_PROP_FRAME_HEIGHT)
+    fps = video.get(cv2.CAP_PROP_FPS) 
+    dir=app.config['VIDEO']
+    
+    out = cv2.VideoWriter(f'{dir}/{name}.mp4', -1, fps, (int(w),int(h)))
 
     while True:
         _, frame = video.read()
@@ -158,20 +222,24 @@ def video():
             ### draw box
             draw(frame, int(classid), float(score), round(x), round(y), round(x + w), round(y + h))
         
+        out.write(frame)
         cv2.imshow("Image", frame)
         key = cv2.waitKey(1)
         if key == 27:
             break
     video.release()
-    newPath=os.path.join(app.config['VIDEO'], f"{name}.{vid.filename.split('.')[-1]}").replace("\\","/")
-
-    # cv2.imwrite(newPath, video)
-
+    out.release()
+    cv2.destroyAllWindows()
+    newPath=os.path.join(dir, f"{name}.{vid.filename.split('.')[-1]}").replace("\\","/")
+    print(newPath)
     print(f"to:   {datetime.now().strftime(formatDatetime)}")
-    if not os.path.exists(newPath):
+    if os.path.exists(newPath):
+        if os.path.exists(path_to_save):
+            os.remove(path_to_save)
         return request.host_url+newPath
     return "Cancel"
 
 # Start Backend
 if __name__ == '__main__':
-    app.run(port=30701)
+    app.run(port=30701,debug=True)
+
