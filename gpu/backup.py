@@ -81,6 +81,18 @@ def draw(img, class_id, confidence, x, y, x_plus_w, y_plus_h):
     cv2.rectangle(img, (x, y), (x_plus_w, y_plus_h), colors[class_id], 2)
     cv2.putText(img, label, (x-10, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, colors[class_id], 2)
 
+
+def getLabel(dir,file):
+    image=cv2.imread(dir+"/"+file)
+    classids,_,_ = model.detect(image, 0.5, 0.4)
+    tree = ET.parse(f'{annotations}/{file[:-4]}.xml')
+    object=tree.find('object')
+    try:
+        return str(classes[int(classids[0])]),object.find("name").text
+    except:
+        return str(classes[1]),object.find("name").text
+
+
 ### App default
 @app.route('/', methods=['POST','GET'] )
 def image():
@@ -138,17 +150,6 @@ def image():
         print(f"to:   {datetime.now().strftime(formatDatetime)}")
         return res
     return {}
-
-
-def getLabel(dir,file):
-    image=cv2.imread(dir+"/"+file)
-    classids,_,_ = model.detect(image, 0.5, 0.4)
-    tree = ET.parse(f'{annotations}/{file[:-4]}.xml')
-    object=tree.find('object')
-    try:
-        return str(classes[int(classids[0])]),object.find("name").text
-    except:
-        return str(classes[1]),object.find("name").text
 
 
 @app.route('/resetValidate', methods=['GET'] )
@@ -243,8 +244,14 @@ def video():
     video.release()
     out.release()
     cv2.destroyAllWindows()
+    newPath=os.path.join(dir, f"{name}.{vid.filename.split('.')[-1]}").replace("\\","/")
     print(f"to:   {datetime.now().strftime(formatDatetime)}")
-    return path_to_save
+    if os.path.exists(newPath):
+        if os.path.exists(path_to_save):
+            os.remove(path_to_save)
+        return request.host_url+newPath
+    return "Cancel"
+
 
 # Start Backend
 if __name__ == '__main__':

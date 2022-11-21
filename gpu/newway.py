@@ -68,6 +68,14 @@ def saveFile(dir,file,name,extension):
         file.save(path_to_save)
     return path_to_save
 
+
+## draw
+def draw(img, class_id, confidence, x, y, x_plus_w, y_plus_h):
+    label = str(classes[class_id])+" ("+ str(round(confidence*100,2)) +"%)"
+    cv2.rectangle(img, (x, y), (x_plus_w, y_plus_h), colors[class_id], 2)
+    cv2.putText(img, label, (x-10, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, colors[class_id], 2)
+
+
 def getLabel(dir,file):
     image=cv2.imread(dir+"/"+file)
     classids,_,_ = model.detect(image, 0.5, 0.4)
@@ -77,6 +85,59 @@ def getLabel(dir,file):
         return str(classes[int(classids[0])]),object.find("name").text
     except:
         return str(classes[1]),object.find("name").text
+
+        
+### App default
+@app.route('/', methods=['POST','GET'] )
+def image():
+    if request.method=='POST':
+        ##Take request
+        name=f"{datetime.now().strftime(formatDatetime)}"
+        print(f"from: {name}")
+        img = request.files['file']
+
+        file_bytes = np.fromfile(img, np.uint8)
+        image = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
+        res=[]
+        
+        print(f"to:   {datetime.now().strftime(formatDatetime)}")
+        ## detect
+        classids, scores, boxes = model.detect(image, 0.5, 0.4)
+        ## take index in list 
+        info=""
+        for (classid, score, box) in zip(classids, scores, boxes):
+            lst=[]
+            ## append label
+            lst.append(str(classes[int(classid)]))
+            # append x, y, weight, height
+            x, y, w, h=[float(f) for f in box]
+            lst.extend([x,y,w,h])
+            ## append confidences
+            lst.append(float(score))
+            res.append(lst)
+
+            info+=f"{int(classid)} {x} {y} {w} {h}\n"
+
+        pathsave = os.path.join(app.config['LABEL'], f"{name}.txt")
+
+        if os.listdir(app.config['UPLOAD_FOLDER']):
+            last=datetime.strptime(os.listdir(app.config['UPLOAD_FOLDER'])[-1].split('.')[0], formatDatetime)
+        else:
+            last=datetime.min
+        now=datetime.strptime(name, formatDatetime)
+        
+        ### Consider label!=NULL,confidences>=0.9 and accept time to write new image
+        if info!="" and [value for value in scores if value<0.9]==[] and (now-last).seconds>skipTime:
+            print(f"collected image with name {name}.jpg and label with name {name}.txt")
+            ##save image
+            path_to_save = saveFile(app.config['UPLOAD_FOLDER'],image,name, "jpg")
+            f = open(pathsave, "w")
+            # save label
+            f.write(info)
+            f.close()
+        print(f"to:   {datetime.now().strftime(formatDatetime)}")
+        return res
+    return {}
 
 
 @app.route('/resetValidate', methods=['GET'] )
@@ -131,66 +192,6 @@ def validate():
     return [predict,label]
 
 
-## draw
-def draw(img, class_id, confidence, x, y, x_plus_w, y_plus_h):
-    label = str(classes[class_id])+" ("+ str(round(confidence*100,2)) +"%)"
-    cv2.rectangle(img, (x, y), (x_plus_w, y_plus_h), colors[class_id], 2)
-    cv2.putText(img, label, (x-10, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, colors[class_id], 2)
-
-
-### App default
-@app.route('/', methods=['POST','GET'] )
-def image():
-    if request.method=='POST':
-        ##Take request
-        name=f"{datetime.now().strftime(formatDatetime)}"
-        print(f"from: {name}")
-        img = request.files['file']
-
-        file_bytes = np.fromfile(img, np.uint8)
-        image = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
-        res=[]
-        
-        print(f"to:   {datetime.now().strftime(formatDatetime)}")
-        ## detect
-        classids, scores, boxes = model.detect(image, 0.5, 0.4)
-        ## take index in list 
-        info=""
-        for (classid, score, box) in zip(classids, scores, boxes):
-            lst=[]
-            ## append label
-            lst.append(str(classes[int(classid)]))
-            # append x, y, weight, height
-            x, y, w, h=[float(f) for f in box]
-            lst.extend([x,y,w,h])
-            ## append confidences
-            lst.append(float(score))
-            res.append(lst)
-
-            info+=f"{int(classid)} {x} {y} {w} {h}\n"
-
-        pathsave = os.path.join(app.config['LABEL'], f"{name}.txt")
-
-        if os.listdir(app.config['UPLOAD_FOLDER']):
-            last=datetime.strptime(os.listdir(app.config['UPLOAD_FOLDER'])[-1].split('.')[0], formatDatetime)
-        else:
-            last=datetime.min
-        now=datetime.strptime(name, formatDatetime)
-        
-        ### Consider label!=NULL,confidences>=0.9 and accept time to write new image
-        if info!="" and [value for value in scores if value<0.9]==[] and (now-last).seconds>skipTime:
-            print(f"collected image with name {name}.jpg and label with name {name}.txt")
-            ##save image
-            path_to_save = saveFile(app.config['UPLOAD_FOLDER'],image,name, "jpg")
-            f = open(pathsave, "w")
-            # save label
-            f.write(info)
-            f.close()
-        print(f"to:   {datetime.now().strftime(formatDatetime)}")
-        return res
-    return {}
-
-
 @app.route('/video', methods=['POST'] )
 def video():
     name=f"{datetime.now().strftime(formatDatetime)}"
@@ -231,13 +232,13 @@ def video():
     out.release()
     cv2.destroyAllWindows()
     newPath=os.path.join(dir, f"{name}.{vid.filename.split('.')[-1]}").replace("\\","/")
-    print(newPath)
     print(f"to:   {datetime.now().strftime(formatDatetime)}")
     if os.path.exists(newPath):
         if os.path.exists(path_to_save):
             os.remove(path_to_save)
         return request.host_url+newPath
     return "Cancel"
+    
 
 # Start Backend
 if __name__ == '__main__':
