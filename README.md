@@ -45,5 +45,5 @@ On gpu dir, you can see $api.py$, $backup.py$, $client.py$ vs $newway.py$
 * $backup.py$: for build a api, but it slow cause I write for cpu computer
 * $client.py$: file from user that want to use api
 * $app.py: run on web
-* $app.py: class for using Validating Score
+* $conMatrix.py: class for using Validating Score
 * For $new.py$: this is improvement for api.py file.
