@@ -6,6 +6,9 @@ The Web allow user validate the accuracy of predicting label. Now, I just save i
 I save on local and Firebase (something wrong from Firebase so I push all to both, still tuning)
 
 This project also have Data Visualization.
+For example: 
++ Show score of Confusion Matrix vs Validating Score (Accuracy,F1,...)
++ Num of With mask and No Mask in database,....
 
 # Requirement
 
