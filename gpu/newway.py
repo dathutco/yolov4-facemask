@@ -217,7 +217,10 @@ def video():
     while True:
         _, frame = video.read()
 
-        classids, scores, boxes = model.detect(frame, 0.5, 0.4)
+        try:
+            classids, scores, boxes = model.detect(frame, 0.5, 0.4)
+        except:
+            break
         ## take index in list 
         info=""
         for (classid, score, box) in zip(classids, scores, boxes):

@@ -61,5 +61,5 @@ def processCam(address):
 address="http://127.0.0.1:30701"
 path="C:/Users/Phat Dat/Downloads/2.jpg"
 
-processImage(address,path)
-# processCam(address)  
+# processImage(address,path)
+processCam(address)  
