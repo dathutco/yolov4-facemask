@@ -7,9 +7,9 @@ import cv2
 import numpy as np
 from conMatrix import *
 import xml.etree.ElementTree as ET
-# import firebase_admin
-# from firebase_admin import credentials
-# from firebase_admin import db
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import db
 
 # Create Flask Server Backend
 app = Flask(__name__)
@@ -19,11 +19,11 @@ app.config['UPLOAD_FOLDER'] = "RecievedImg"
 app.config['LABEL'] = "RecievedLabel"
 app.config['VIDEO'] = "RecievedVideo"
 
-# cred = credentials.Certificate('./authentication.json')
-# default_app = firebase_admin.initialize_app(cred, {
-#     'databaseURL': "https://project-realtime-161a1-default-rtdb.firebaseio.com/"})
+cred = credentials.Certificate('./credential.json')
+default_app = firebase_admin.initialize_app(cred, {
+    'databaseURL': "https://fir-3704f-default-rtdb.firebaseio.com/"})
 
-# ref = db.reference("/recognizations/face_mark")
+ref = db.reference("/Validation")
 
 
 annotations="./conMatrix/annotations"
@@ -152,11 +152,15 @@ def resetValidate():
         rowj=getLabel(dirNoMask,j)
         df.loc[len(df.index)] = rowi
         df.loc[len(df.index)] = rowj
-    """
-    Then save to table
-    """
+
+    # for predict,label in df.iterrows():
+    #     ref.push().set({
+    #         'predict': predict,
+    #         'label': label
+    #     })
     json_data = df.to_json(orient='values')
     return json_data
+    # return "sucess"
 
 
 @app.route('/score', methods=['GET'] )

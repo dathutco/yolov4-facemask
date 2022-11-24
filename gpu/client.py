@@ -14,9 +14,10 @@ def draw(img, label, confidence, x, y, x_plus_w, y_plus_h):
 def process(rp,image):   
     a=rp.split(']')
     for lst in a:
-        if lst[2:]!="":
-            lst=lst[2:].replace("\"","").split(",")
+        if lst[3:]!="":
+            lst=lst[2:].replace('\"',"").replace('[',"").split(",")
             label,x,y,w,h,confidence= lst
+            label=label.strip()
             try:
                 x=float(x)
                 y=float(y)
@@ -58,7 +59,7 @@ def processCam(address):
 
 
 address="http://127.0.0.1:30701"
-path="C:/Users/Phat Dat/Downloads/1.png"
+path="C:/Users/Phat Dat/Downloads/2.jpg"
 
-# processImage(address,path)
-processCam(address)  
+processImage(address,path)
+# processCam(address)  
