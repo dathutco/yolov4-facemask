@@ -7,6 +7,9 @@ import cv2
 import numpy as np
 from conMatrix import *
 import xml.etree.ElementTree as ET
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import db
 
 # Create Flask Server Backend
 app = Flask(__name__)
@@ -15,6 +18,13 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = "RecievedImg"
 app.config['LABEL'] = "RecievedLabel"
 app.config['VIDEO'] = "RecievedVideo"
+
+cred = credentials.Certificate('credential.json')
+default_app = firebase_admin.initialize_app(cred, {
+    'databaseURL': "https://fir-3704f-default-rtdb.firebaseio.com/"})
+
+ref = db.reference("/Validation")
+
 
 annotations="./conMatrix/annotations"
 dirMask="conMatrix/mask"
@@ -33,17 +43,22 @@ skipTime=4
 classes_file = "data/obj.names"
 with open(classes_file, 'r') as f:
     classes = [line.strip() for line in f.readlines()]
+
 ### color green vs red
 colors=[(0, 255, 0),(0, 0, 255)]
 ##file model vs config
-modelcfg="cfg/yolov4-tiny-custom"
+modelcfg="cfg/yolov4-tiny-custom.cfg"
 weight="Model/best.weights"
+
 ## Load model
 net=cv2.dnn.readNet(weight,modelcfg)
-# net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
-# net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA)
+net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
+net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA)
+model = cv2.dnn_DetectionModel(net)
+model.setInputParams(size=(416, 416), scale=1/255, swapRB=True)
 layer_names = net.getLayerNames()
-output_layers = [layer_names[i - 1] for i in net.getUnconnectedOutLayers()]
+output_layers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
+
 
 def saveFile(dir,file,name,extension):
     path_to_save = os.path.join(dir, f"{name}.{extension}")
@@ -53,27 +68,6 @@ def saveFile(dir,file,name,extension):
         file.save(path_to_save)
     return path_to_save
 
-def detect(iH,iW,outs):
-    class_ids = []
-    confidences = []
-    boxes = []
-    for out in outs:
-        for detection in out:
-            scores = detection[5:]
-            class_id = np.argmax(scores)
-            confidence = scores[class_id]
-            if confidence > 0.7:
-                center_x = int(detection[0] * iW)
-                center_y = int(detection[1] * iH)
-                w = int(detection[2] * iW)
-                h = int(detection[3] * iH)
-                x = center_x - w / 2
-                y = center_y - h / 2
-                class_ids.append(class_id)
-                
-                confidences.append(float(confidence))
-                boxes.append([x, y, w, h])
-    return class_ids,confidences,boxes
 
 ## draw
 def draw(img, class_id, confidence, x, y, x_plus_w, y_plus_h):
@@ -92,7 +86,7 @@ def getLabel(dir,file):
     except:
         return str(classes[1]),object.find("name").text
 
-
+        
 ### App default
 @app.route('/', methods=['POST','GET'] )
 def image():
@@ -101,35 +95,28 @@ def image():
         name=f"{datetime.now().strftime(formatDatetime)}"
         print(f"from: {name}")
         img = request.files['file']
+
         file_bytes = np.fromfile(img, np.uint8)
         image = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
-
         res=[]
-
-        print(f"to:   {datetime.now().strftime(formatDatetime)}")
-        # build
-        blob = cv2.dnn.blobFromImage(image,1 / 255.0,(416, 416),swapRB=True, crop=False)
-        net.setInput(blob)
-        outs = net.forward(output_layers)
-
+        
         print(f"to:   {datetime.now().strftime(formatDatetime)}")
         ## detect
-        class_ids,confidences,boxes=detect(image.shape[:2][0],image.shape[:2][1],outs)
+        classids, scores, boxes = model.detect(image, 0.5, 0.4)
         ## take index in list 
-        indexes = cv2.dnn.NMSBoxes(boxes, confidences, 0.5, 0.4)
         info=""
-        for i in indexes:
+        for (classid, score, box) in zip(classids, scores, boxes):
             lst=[]
             ## append label
-            lst.append(str(classes[class_ids[i]]))
+            lst.append(str(classes[int(classid)]))
             # append x, y, weight, height
-            x, y, w, h=boxes[i]
-            lst.extend(boxes[i])
+            x, y, w, h=[float(f) for f in box]
+            lst.extend([x,y,w,h])
             ## append confidences
-            lst.append(confidences[i])
+            lst.append(float(score))
             res.append(lst)
 
-            info+=f"{class_ids[i]} {x} {y} {w} {h}\n"
+            info+=f"{int(classid)} {x} {y} {w} {h}\n"
 
         pathsave = os.path.join(app.config['LABEL'], f"{name}.txt")
 
@@ -138,11 +125,12 @@ def image():
         else:
             last=datetime.min
         now=datetime.strptime(name, formatDatetime)
-
-        if info!="" and [value for value in confidences if value<0.9]==[] and (now-last).seconds>skipTime:
+        
+        ### Consider label!=NULL,confidences>=0.9 and accept time to write new image
+        if info!="" and [value for value in scores if value<0.9]==[] and (now-last).seconds>skipTime:
+            print(f"collected image with name {name}.jpg and label with name {name}.txt")
             ##save image
             path_to_save = saveFile(app.config['UPLOAD_FOLDER'],image,name, "jpg")
-            re = cv2.imread(path_to_save)
             f = open(pathsave, "w")
             # save label
             f.write(info)
@@ -164,11 +152,20 @@ def resetValidate():
         rowj=getLabel(dirNoMask,j)
         df.loc[len(df.index)] = rowi
         df.loc[len(df.index)] = rowj
-    """
-    Then save to table
-    """
-    json_data = df.to_json(orient='values')
-    return json_data
+
+
+    # for predict,label in df.iterrows():
+    #     ref.push().set({
+    #         'predict': str(predict),
+    #         'label': str(label)
+    #     })
+
+    objectData = ref.get()
+    listData = objectData.values()
+    return [listData]
+    # json_data = df.to_json(orient='values')
+    # return json_data
+    # return "sucess"
 
 
 @app.route('/score', methods=['GET'] )
@@ -212,6 +209,7 @@ def video():
 
     path_to_save = saveFile(app.config['VIDEO'], vid, vid.filename.split('.')[0], "mp4")
     # path_to_save = saveFile(app.config['VIDEO'],vid, name, "mp4")
+
     video = cv2.VideoCapture(path_to_save)
 
     w = video.get(cv2.CAP_PROP_FRAME_WIDTH)
@@ -220,23 +218,23 @@ def video():
     dir=app.config['VIDEO']
     
     out = cv2.VideoWriter(f'{dir}/{name}.mp4', -1, fps, (int(w),int(h)))
-    
+
     while True:
         _, frame = video.read()
-        try:
-            blob = cv2.dnn.blobFromImage(frame,1 / 255.0,(416, 416),swapRB=True, crop=False)
-            net.setInput(blob)
-            outs = net.forward(output_layers)
 
-            class_ids,confidences,boxes=detect(frame.shape[:2][0],frame.shape[:2][1],outs)
-            indexes = cv2.dnn.NMSBoxes(boxes, confidences, 0.5, 0.4)
+        try:
+            classids, scores, boxes = model.detect(frame, 0.5, 0.4)
         except:
             break
-        ### draw
-        for i in indexes:
-            x, y, w, h = boxes[i]
+        ## take index in list 
+        info=""
+        for (classid, score, box) in zip(classids, scores, boxes):
+
+            # x, y, weight, height
+            x, y, w, h=[float(f) for f in box]
             ### draw box
-            draw(frame, class_ids[i], confidences[i], round(x), round(y), round(x + w), round(y + h))
+            draw(frame, int(classid), float(score), round(x), round(y), round(x + w), round(y + h))
+        
         out.write(frame)
         cv2.imshow("Image", frame)
         key = cv2.waitKey(1)
@@ -252,8 +250,9 @@ def video():
             os.remove(path_to_save)
         return request.host_url+newPath
     return "Cancel"
-
+    
 
 # Start Backend
 if __name__ == '__main__':
     app.run(port=30701,debug=True)
+
