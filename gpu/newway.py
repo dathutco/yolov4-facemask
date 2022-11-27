@@ -19,11 +19,11 @@ app.config['UPLOAD_FOLDER'] = "RecievedImg"
 app.config['LABEL'] = "RecievedLabel"
 app.config['VIDEO'] = "RecievedVideo"
 
-cred = credentials.Certificate('./credential.json')
-default_app = firebase_admin.initialize_app(cred, {
-    'databaseURL': "https://fir-3704f-default-rtdb.firebaseio.com/"})
+# cred = credentials.Certificate('./credential.json')
+# default_app = firebase_admin.initialize_app(cred, {
+#     'databaseURL': "https://fir-3704f-default-rtdb.firebaseio.com/"})
 
-ref = db.reference("/Validation")
+# ref = db.reference("/Validation")
 
 
 annotations="./conMatrix/annotations"
@@ -47,8 +47,8 @@ with open(classes_file, 'r') as f:
 ### color green vs red
 colors=[(0, 255, 0),(0, 0, 255)]
 ##file model vs config
-modelcfg="cfg/yolov4.cfg"
-weight="Model/yolov4-custom_best.weights"
+modelcfg="cfg/yolov4-tiny-custom.cfg"
+weight="Model/best.weights"
 
 ## Load model
 net=cv2.dnn.readNet(weight,modelcfg)

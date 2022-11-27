@@ -14,7 +14,7 @@ def draw(img, label, confidence, x, y, x_plus_w, y_plus_h):
 def process(rp,image):   
     a=rp.split(']')
     for lst in a:
-        if lst[3:]!="":
+        if lst[2:]!="":
             lst=lst[2:].replace('\"',"").replace('[',"").split(",")
             label,x,y,w,h,confidence= lst
             label=label.strip()

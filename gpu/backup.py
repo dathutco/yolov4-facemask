@@ -36,7 +36,7 @@ with open(classes_file, 'r') as f:
 ### color green vs red
 colors=[(0, 255, 0),(0, 0, 255)]
 ##file model vs config
-modelcfg="cfg/yolov4-tiny-custom"
+modelcfg="cfg/yolov4-tiny-custom.cfg"
 weight="Model/best.weights"
 ## Load model
 net=cv2.dnn.readNet(weight,modelcfg)
@@ -84,7 +84,12 @@ def draw(img, class_id, confidence, x, y, x_plus_w, y_plus_h):
 
 def getLabel(dir,file):
     image=cv2.imread(dir+"/"+file)
-    classids,_,_ = model.detect(image, 0.5, 0.4)
+
+    blob = cv2.dnn.blobFromImage(image,1 / 255.0,(416, 416),swapRB=True, crop=False)
+    net.setInput(blob)
+    outs = net.forward(output_layers)
+    classids,_,_=detect(image.shape[:2][0],image.shape[:2][1],outs)
+    
     tree = ET.parse(f'{annotations}/{file[:-4]}.xml')
     object=tree.find('object')
     try:
