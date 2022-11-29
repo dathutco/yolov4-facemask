@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request
 from flask import request
-from datetime import datetime
 # from time import gmtime, strftime
 import os
 import cv2
@@ -11,6 +10,8 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 from firebase_admin import db
 import time
+from datetime import datetime, time
+
 from functools import lru_cache
 
 # Create Flask Server Backend
@@ -275,24 +276,24 @@ def getDataByTime():
         t24n = 0
         for data in listData:
             if data["time"] >= dateUnixTimeStart and data["time"] <= (dateUnixTimeStart + 3600 * 6):
-                if data['label'] == 'without_mask':
+                if data['predict'] == 'without_mask':
                     t6n = t6n + 1
-                elif data['label'] == 'with_mask':
+                elif data['predict'] == 'with_mask':
                     t6y = t6y + 1
             elif data["time"] >= (dateUnixTimeStart + 3600 * 6) and data["time"] <= (dateUnixTimeStart + 3600 * 12):
-                if data['label'] == 'without_mask':
+                if data['predict'] == 'without_mask':
                     t12n = t12n + 1
-                elif data['label'] == 'with_mask':
+                elif data['predict'] == 'with_mask':
                     t12y = t12y + 1
             elif data["time"] >= (dateUnixTimeStart + 3600 * 12) and data["time"] <= (dateUnixTimeStart + 3600 * 18):
-                if data['label'] == 'without_mask':
+                if data['predict'] == 'without_mask':
                     t18n = t18n + 1
-                elif data['label'] == 'with_mask':
+                elif data['predict'] == 'with_mask':
                     t18y = t18y + 1
             elif data["time"] >= (dateUnixTimeStart + 3600 * 18) and data["time"] <= (dateUnixTimeStart + 3600 * 24):
-                if data['label'] == 'without_mask':
+                if data['predict'] == 'without_mask':
                     t24n = t24n + 1
-                elif data['label'] == 'with_mask':
+                elif data['predict'] == 'with_mask':
                     t24y = t24y + 1
     listDataMask = [0, t6y, t12y, t18y, t24y]
     listDataWithoutMask = [0, t6n, t12n, t18n, t24n]
