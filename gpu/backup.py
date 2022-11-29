@@ -238,9 +238,9 @@ def getAllData():
     mark = 0
     withoutMark = 0
     for data in listData:
-        if data['label'] == 'without_mask':
+        if data['predict'] == 'without_mask':
             withoutMark = withoutMark + 1
-        elif data['label'] == 'with_mask':
+        elif data['predict'] == 'with_mask':
             mark = mark + 1
     return {
         "mark": mark,
@@ -338,7 +338,6 @@ def score():
 
     matrix = ConfusionMatrix(df)
     acc, recall, precision, f1 = matrix.allScore()
-    print(1234)
     return {"accuracy": acc, "recall": recall, "precision": precision, "f1-score": f1}
 
 
