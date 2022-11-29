@@ -13,6 +13,7 @@ from firebase_admin import db
 import time
 import functools
 
+
 # Create Flask Server Backend
 app = Flask(__name__)
 
@@ -316,7 +317,7 @@ def insertData(x, y, w, h, label, nowTime, img, confirmedLable):
         'y': y,
         'w': w,
         'h': h,
-        'label': label,
+        'predict': label,
         'time': nowTime,
         'image': img,
         'confirmedLable': confirmedLable
@@ -325,12 +326,23 @@ def insertData(x, y, w, h, label, nowTime, img, confirmedLable):
 
 @app.route('/score', methods=['GET'])
 def score():
-    data = {'predict': ["with_mask", "with_mask", "without_mask", "with_mask", "with_mask", "without_mask", "without_mask"], 'label': [
-        "with_mask", "with_mask", "without_mask", "with_mask", "without_mask", "without_mask", "without_mask"]}
+    listData = getAllDataInfireBase()
+    predict = list()
+    label = list()
+    for item in listData:
+        predict.append(item['predict'])
+        label.append(item['confirmedLable'])
+    # data = {'predict': ["with_mask", "with_mask", "without_mask", "with_mask", "with_mask", "without_mask", "without_mask"], 'label': [
+    #     "with_mask", "with_mask", "without_mask", "with_mask", "without_mask", "without_mask", "without_mask"]}
+    data = {
+        'predict': predict,
+        'label': label
+    }
     df = pd.DataFrame(data=data)
 
     matrix = ConfusionMatrix(df)
     acc, recall, precision, f1 = matrix.allScore()
+    print(1234)
     return {"accuracy": acc, "recall": recall, "precision": precision, "f1-score": f1}
 
 
