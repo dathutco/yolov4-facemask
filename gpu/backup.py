@@ -11,8 +11,7 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 from firebase_admin import db
 import time
-import functools
-
+from functools import lru_cache
 
 # Create Flask Server Backend
 app = Flask(__name__)
@@ -248,7 +247,7 @@ def getAllData():
     }
 
 
-@functools.lru_cache(maxsize=2048)
+@lru_cache(maxsize=2048, typed=True)
 def getAllDataInfireBase():
     print("run cache")
     objectData = ref.get()
@@ -310,6 +309,7 @@ def home():
 
 def insertData(x, y, w, h, label, nowTime, img, confirmedLable):
     objectInFireBase.clear()
+    getAllDataInfireBase.cache_clear()
     ref.push().set({
         'x': x,
         'y': y,
