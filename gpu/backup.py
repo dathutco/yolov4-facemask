@@ -9,7 +9,7 @@ import xml.etree.ElementTree as ET
 import firebase_admin
 from firebase_admin import credentials, firestore
 from firebase_admin import db
-import time
+import time as t
 from datetime import datetime, time
 
 from functools import lru_cache
@@ -160,7 +160,7 @@ def image():
             res.append(lst)
 
             info += f"{class_ids[i]} {x} {y} {w} {h}\n"
-            nowTime = int(time.time())
+            nowTime = int(t.time())
 
             objectInFireBase.append(x)
             objectInFireBase.append(y)
@@ -306,6 +306,11 @@ def getDataByTime():
 @app.route("/chart")
 def home():
     return render_template("chart.html")
+
+
+@app.route("/show-score")
+def showScore():
+    return render_template("score.html")
 
 
 def insertData(x, y, w, h, label, nowTime, img, confirmedLable):
