@@ -261,8 +261,6 @@ def getDataByTime():
     objectData = ref.get()
     listData = objectData.values()
     type = 'DAY'
-    # listDataMask = []
-    # listDataWithoutMask = []
     if type == 'DAY':
         # dateTimeEnd = datetime.combine(datetime.now(), time.max)
         # dateUnixTimeEnd = int(dateTimeEnd.timestamp())
@@ -332,8 +330,6 @@ def score():
     for item in listData:
         predict.append(item['predict'])
         label.append(item['confirmedLable'])
-    # data = {'predict': ["with_mask", "with_mask", "without_mask", "with_mask", "with_mask", "without_mask", "without_mask"], 'label': [
-    #     "with_mask", "with_mask", "without_mask", "with_mask", "without_mask", "without_mask", "without_mask"]}
     data = {
         'predict': predict,
         'label': label
