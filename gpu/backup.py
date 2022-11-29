@@ -11,6 +11,7 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 from firebase_admin import db
 import time
+import functools
 
 # Create Flask Server Backend
 app = Flask(__name__)
@@ -159,7 +160,6 @@ def image():
 
             info += f"{class_ids[i]} {x} {y} {w} {h}\n"
             nowTime = int(time.time())
-            yu = [x, y, w, h, label, nowTime, img.filename]
 
             objectInFireBase.append(x)
             objectInFireBase.append(y)
@@ -233,8 +233,7 @@ def userConfirm():
 
 @app.route('/get-all-data', methods=['GET'])
 def getAllData():
-    objectData = ref.get()
-    listData = objectData.values()
+    listData = getAllDataInfireBase()
     mark = 0
     withoutMark = 0
     for data in listData:
@@ -242,12 +241,18 @@ def getAllData():
             withoutMark = withoutMark + 1
         elif data['label'] == 'with_mask':
             mark = mark + 1
-
     return {
         "mark": mark,
         "withoutMark": withoutMark,
-
     }
+
+
+@functools.lru_cache(maxsize=2048)
+def getAllDataInfireBase():
+    print("run cache")
+    objectData = ref.get()
+    listData = objectData.values()
+    return listData
 
 
 @app.route('/get-data-by-time', methods=['GET'])
