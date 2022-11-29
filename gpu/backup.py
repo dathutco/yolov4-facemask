@@ -1,6 +1,6 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask import request
-from datetime import datetime, time
+from datetime import datetime
 # from time import gmtime, strftime
 import os
 import cv2
@@ -10,6 +10,7 @@ import xml.etree.ElementTree as ET
 import firebase_admin
 from firebase_admin import credentials, firestore
 from firebase_admin import db
+import time
 
 # Create Flask Server Backend
 app = Flask(__name__)
@@ -29,7 +30,7 @@ annotations = "./conMatrix/annotations"
 dirMask = "conMatrix/mask"
 dirNoMask = "conMatrix/nomask"
 
-objectInFireBase = list()
+objectInFireBase = []
 
 
 def makeDir(dir):
@@ -158,7 +159,15 @@ def image():
 
             info += f"{class_ids[i]} {x} {y} {w} {h}\n"
             nowTime = int(time.time())
-            objectInFireBase.append([x, y, w, h, label, nowTime, img.filename])
+            yu = [x, y, w, h, label, nowTime, img.filename]
+
+            objectInFireBase.append(x)
+            objectInFireBase.append(y)
+            objectInFireBase.append(w)
+            objectInFireBase.append(h)
+            objectInFireBase.append(label)
+            objectInFireBase.append(nowTime)
+            objectInFireBase.append(img.filename)
             # insertData(x, y, w, h, label, nowTime, img.filename)
 
         pathsave = os.path.join(app.config['LABEL'], f"{name}.txt")
@@ -205,8 +214,8 @@ def resetValidate():
 
 @app.route('/user-confirm-label', methods=['GET'])
 def userConfirm():
-    predict = request.form.get('predict')
-    key = bool(request.form.get('key'))
+    predict = request.args.get('predict')
+    key = bool(request.args.get('key'))
     if (predict == 'without_mask'):
         if (key == True):
             objectInFireBase.append('without_mask')
@@ -218,7 +227,7 @@ def userConfirm():
         else:
             objectInFireBase.append('without_mask')
     insertData(objectInFireBase[0], objectInFireBase[1], objectInFireBase[2], objectInFireBase[3],
-               objectInFireBase[4], objectInFireBase[5], objectInFireBase[6], objectInFireBase[7], objectInFireBase[8])
+               objectInFireBase[4], objectInFireBase[5], objectInFireBase[6], objectInFireBase[7])
     return "Confirm successfully"
 
 
@@ -296,6 +305,7 @@ def home():
 
 
 def insertData(x, y, w, h, label, nowTime, img, confirmedLable):
+    objectInFireBase.clear()
     ref.push().set({
         'x': x,
         'y': y,
@@ -306,7 +316,6 @@ def insertData(x, y, w, h, label, nowTime, img, confirmedLable):
         'image': img,
         'confirmedLable': confirmedLable
     })
-    objectInFireBase = []
 
 
 @app.route('/score', methods=['GET'])
