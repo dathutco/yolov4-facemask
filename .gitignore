@@ -4071,311 +4071,311 @@ gpu/Model/yolov4.conv.137
 gpu/RecievedImg/30-11-2022_13-09-57-039557.jpg
 gpu/RecievedImg/30-11-2022_13-11-56-853121.jpg
 gpu/RecievedImg/30-11-2022_13-14-54-479514.jpg
-gpu/static/bootstrap/dist/.DS_Store
-gpu/static/bootstrap/dist/css/bootstrap-grid.css
-gpu/static/bootstrap/dist/css/bootstrap-grid.css.map
-gpu/static/bootstrap/dist/css/bootstrap-grid.min.css
-gpu/static/bootstrap/dist/css/bootstrap-grid.min.css.map
-gpu/static/bootstrap/dist/css/bootstrap-grid.rtl.css
-gpu/static/bootstrap/dist/css/bootstrap-grid.rtl.css.map
-gpu/static/bootstrap/dist/css/bootstrap-grid.rtl.min.css
-gpu/static/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map
-gpu/static/bootstrap/dist/css/bootstrap-reboot.css
-gpu/static/bootstrap/dist/css/bootstrap-reboot.css.map
-gpu/static/bootstrap/dist/css/bootstrap-reboot.min.css
-gpu/static/bootstrap/dist/css/bootstrap-reboot.min.css.map
-gpu/static/bootstrap/dist/css/bootstrap-reboot.rtl.css
-gpu/static/bootstrap/dist/css/bootstrap-reboot.rtl.css.map
-gpu/static/bootstrap/dist/css/bootstrap-reboot.rtl.min.css
-gpu/static/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map
-gpu/static/bootstrap/dist/css/bootstrap-utilities.css
-gpu/static/bootstrap/dist/css/bootstrap-utilities.css.map
-gpu/static/bootstrap/dist/css/bootstrap-utilities.min.css
-gpu/static/bootstrap/dist/css/bootstrap-utilities.min.css.map
-gpu/static/bootstrap/dist/css/bootstrap-utilities.rtl.css
-gpu/static/bootstrap/dist/css/bootstrap-utilities.rtl.css.map
-gpu/static/bootstrap/dist/css/bootstrap-utilities.rtl.min.css
-gpu/static/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map
-gpu/static/bootstrap/dist/css/bootstrap.css
-gpu/static/bootstrap/dist/css/bootstrap.css.map
-gpu/static/bootstrap/dist/css/bootstrap.min.css
-gpu/static/bootstrap/dist/css/bootstrap.min.css.map
-gpu/static/bootstrap/dist/css/bootstrap.rtl.css
-gpu/static/bootstrap/dist/css/bootstrap.rtl.css.map
-gpu/static/bootstrap/dist/css/bootstrap.rtl.min.css
-gpu/static/bootstrap/dist/css/bootstrap.rtl.min.css.map
-gpu/static/bootstrap/dist/js/bootstrap.bundle.js
-gpu/static/bootstrap/dist/js/bootstrap.bundle.js.map
-gpu/static/bootstrap/dist/js/bootstrap.bundle.min.js
-gpu/static/bootstrap/dist/js/bootstrap.bundle.min.js.map
-gpu/static/bootstrap/dist/js/bootstrap.esm.js
-gpu/static/bootstrap/dist/js/bootstrap.esm.js.map
-gpu/static/bootstrap/dist/js/bootstrap.esm.min.js
-gpu/static/bootstrap/dist/js/bootstrap.esm.min.js.map
-gpu/static/bootstrap/dist/js/bootstrap.js
-gpu/static/bootstrap/dist/js/bootstrap.js.map
-gpu/static/bootstrap/dist/js/bootstrap.min.js
-gpu/static/bootstrap/dist/js/bootstrap.min.js.map
-gpu/static/css/.DS_Store
-gpu/static/css/style.css
-gpu/static/css/style.min.css
-gpu/static/css/icons/.DS_Store
-gpu/static/css/icons/font-awesome/css/fa-brands.css
-gpu/static/css/icons/font-awesome/css/fa-brands.min.css
-gpu/static/css/icons/font-awesome/css/fa-regular.css
-gpu/static/css/icons/font-awesome/css/fa-regular.min.css
-gpu/static/css/icons/font-awesome/css/fa-solid.css
-gpu/static/css/icons/font-awesome/css/fa-solid.min.css
-gpu/static/css/icons/font-awesome/css/fontawesome-all.css
-gpu/static/css/icons/font-awesome/css/fontawesome-all.min.css
-gpu/static/css/icons/font-awesome/css/fontawesome.css
-gpu/static/css/icons/font-awesome/css/fontawesome.min.css
-gpu/static/css/icons/font-awesome/less/_animated.less
-gpu/static/css/icons/font-awesome/less/_bordered-pulled.less
-gpu/static/css/icons/font-awesome/less/_core.less
-gpu/static/css/icons/font-awesome/less/_fixed-width.less
-gpu/static/css/icons/font-awesome/less/_icons.less
-gpu/static/css/icons/font-awesome/less/_larger.less
-gpu/static/css/icons/font-awesome/less/_list.less
-gpu/static/css/icons/font-awesome/less/_mixins.less
-gpu/static/css/icons/font-awesome/less/_rotated-flipped.less
-gpu/static/css/icons/font-awesome/less/_screen-reader.less
-gpu/static/css/icons/font-awesome/less/_stacked.less
-gpu/static/css/icons/font-awesome/less/_variables.less
-gpu/static/css/icons/font-awesome/less/fa-brands.less
-gpu/static/css/icons/font-awesome/less/fa-regular.less
-gpu/static/css/icons/font-awesome/less/fa-solid.less
-gpu/static/css/icons/font-awesome/less/fontawesome.less
-gpu/static/css/icons/font-awesome/scss/_animated.scss
-gpu/static/css/icons/font-awesome/scss/_bordered-pulled.scss
-gpu/static/css/icons/font-awesome/scss/_core.scss
-gpu/static/css/icons/font-awesome/scss/_fixed-width.scss
-gpu/static/css/icons/font-awesome/scss/_icons.scss
-gpu/static/css/icons/font-awesome/scss/_larger.scss
-gpu/static/css/icons/font-awesome/scss/_list.scss
-gpu/static/css/icons/font-awesome/scss/_mixins.scss
-gpu/static/css/icons/font-awesome/scss/_rotated-flipped.scss
-gpu/static/css/icons/font-awesome/scss/_screen-reader.scss
-gpu/static/css/icons/font-awesome/scss/_stacked.scss
-gpu/static/css/icons/font-awesome/scss/_variables.scss
-gpu/static/css/icons/font-awesome/scss/fa-brands.scss
-gpu/static/css/icons/font-awesome/scss/fa-regular.scss
-gpu/static/css/icons/font-awesome/scss/fa-solid.scss
-gpu/static/css/icons/font-awesome/scss/fontawesome.scss
-gpu/static/css/icons/font-awesome/webfonts/fa-brands-400.eot
-gpu/static/css/icons/font-awesome/webfonts/fa-brands-400.svg
-gpu/static/css/icons/font-awesome/webfonts/fa-brands-400.ttf
-gpu/static/css/icons/font-awesome/webfonts/fa-brands-400.woff
-gpu/static/css/icons/font-awesome/webfonts/fa-brands-400.woff2
-gpu/static/css/icons/font-awesome/webfonts/fa-regular-400.eot
-gpu/static/css/icons/font-awesome/webfonts/fa-regular-400.svg
-gpu/static/css/icons/font-awesome/webfonts/fa-regular-400.ttf
-gpu/static/css/icons/font-awesome/webfonts/fa-regular-400.woff
-gpu/static/css/icons/font-awesome/webfonts/fa-regular-400.woff2
-gpu/static/css/icons/font-awesome/webfonts/fa-solid-900.eot
-gpu/static/css/icons/font-awesome/webfonts/fa-solid-900.svg
-gpu/static/css/icons/font-awesome/webfonts/fa-solid-900.ttf
-gpu/static/css/icons/font-awesome/webfonts/fa-solid-900.woff
-gpu/static/css/icons/font-awesome/webfonts/fa-solid-900.woff2
-gpu/static/css/icons/material-design-iconic-font/css/material-design-iconic-font.css
-gpu/static/css/icons/material-design-iconic-font/css/material-design-iconic-font.min.css
-gpu/static/css/icons/material-design-iconic-font/css/materialdesignicons.min.css
-gpu/static/css/icons/material-design-iconic-font/fonts/Material-Design-Iconic-Font.eot
-gpu/static/css/icons/material-design-iconic-font/fonts/Material-Design-Iconic-Font.svg
-gpu/static/css/icons/material-design-iconic-font/fonts/Material-Design-Iconic-Font.ttf
-gpu/static/css/icons/material-design-iconic-font/fonts/Material-Design-Iconic-Font.woff
-gpu/static/css/icons/material-design-iconic-font/fonts/Material-Design-Iconic-Font.woff2
-gpu/static/css/icons/material-design-iconic-font/fonts/materialdesignicons-webfont.eot
-gpu/static/css/icons/material-design-iconic-font/fonts/materialdesignicons-webfont.svg
-gpu/static/css/icons/material-design-iconic-font/fonts/materialdesignicons-webfont.ttf
-gpu/static/css/icons/material-design-iconic-font/fonts/materialdesignicons-webfont.woff
-gpu/static/css/icons/material-design-iconic-font/fonts/materialdesignicons-webfont.woff2
-gpu/static/css/icons/themify-icons/themify-icons.css
-gpu/static/css/icons/themify-icons/themify-icons.less
-gpu/static/css/icons/themify-icons/fonts/themify.eot
-gpu/static/css/icons/themify-icons/fonts/themify.svg
-gpu/static/css/icons/themify-icons/fonts/themify.ttf
-gpu/static/css/icons/themify-icons/fonts/themify.woff
-gpu/static/css/icons/themify-icons/ie7/ie7.css
-gpu/static/css/icons/themify-icons/ie7/ie7.js
-gpu/static/css/icons/weather-icons/css/weather-icons-core.css
-gpu/static/css/icons/weather-icons/css/weather-icons-variables.css
-gpu/static/css/icons/weather-icons/css/weather-icons-wind.css
-gpu/static/css/icons/weather-icons/css/weather-icons-wind.min.css
-gpu/static/css/icons/weather-icons/css/weather-icons.css
-gpu/static/css/icons/weather-icons/css/weather-icons.min.css
-gpu/static/css/icons/weather-icons/fonts/weathericons-regular-webfont.eot
-gpu/static/css/icons/weather-icons/fonts/weathericons-regular-webfont.svg
-gpu/static/css/icons/weather-icons/fonts/weathericons-regular-webfont.ttf
-gpu/static/css/icons/weather-icons/fonts/weathericons-regular-webfont.woff
-gpu/static/css/icons/weather-icons/fonts/weathericons-regular-webfont.woff2
-gpu/static/css/icons/weather-icons/less/weather-icons-classes.less
-gpu/static/css/icons/weather-icons/less/weather-icons-core.less
-gpu/static/css/icons/weather-icons/less/weather-icons-variables.less
-gpu/static/css/icons/weather-icons/less/weather-icons-wind.less
-gpu/static/css/icons/weather-icons/less/weather-icons-wind.min.less
-gpu/static/css/icons/weather-icons/less/weather-icons.less
-gpu/static/css/icons/weather-icons/less/weather-icons.min.less
-gpu/static/css/icons/weather-icons/less/css/variables-beaufort.css
-gpu/static/css/icons/weather-icons/less/css/variables-day.css
-gpu/static/css/icons/weather-icons/less/css/variables-direction.css
-gpu/static/css/icons/weather-icons/less/css/variables-misc.css
-gpu/static/css/icons/weather-icons/less/css/variables-moon.css
-gpu/static/css/icons/weather-icons/less/css/variables-neutral.css
-gpu/static/css/icons/weather-icons/less/css/variables-night.css
-gpu/static/css/icons/weather-icons/less/css/variables-time.css
-gpu/static/css/icons/weather-icons/less/css/variables-wind-names.css
-gpu/static/css/icons/weather-icons/less/icon-classes/classes-beaufort.less
-gpu/static/css/icons/weather-icons/less/icon-classes/classes-day.less
-gpu/static/css/icons/weather-icons/less/icon-classes/classes-direction.less
-gpu/static/css/icons/weather-icons/less/icon-classes/classes-misc.less
-gpu/static/css/icons/weather-icons/less/icon-classes/classes-moon-aliases.less
-gpu/static/css/icons/weather-icons/less/icon-classes/classes-moon.less
-gpu/static/css/icons/weather-icons/less/icon-classes/classes-neutral.less
-gpu/static/css/icons/weather-icons/less/icon-classes/classes-night.less
-gpu/static/css/icons/weather-icons/less/icon-classes/classes-time.less
-gpu/static/css/icons/weather-icons/less/icon-classes/classes-wind-aliases.less
-gpu/static/css/icons/weather-icons/less/icon-classes/classes-wind-degrees.less
-gpu/static/css/icons/weather-icons/less/icon-classes/classes-wind.less
-gpu/static/css/icons/weather-icons/less/icon-variables/variables-beaufort.less
-gpu/static/css/icons/weather-icons/less/icon-variables/variables-day.less
-gpu/static/css/icons/weather-icons/less/icon-variables/variables-direction.less
-gpu/static/css/icons/weather-icons/less/icon-variables/variables-misc.less
-gpu/static/css/icons/weather-icons/less/icon-variables/variables-moon.less
-gpu/static/css/icons/weather-icons/less/icon-variables/variables-neutral.less
-gpu/static/css/icons/weather-icons/less/icon-variables/variables-night.less
-gpu/static/css/icons/weather-icons/less/icon-variables/variables-time.less
-gpu/static/css/icons/weather-icons/less/icon-variables/variables-wind-names.less
-gpu/static/css/icons/weather-icons/less/mappings/wi-forecast-io.less
-gpu/static/css/icons/weather-icons/less/mappings/wi-owm.less
-gpu/static/css/icons/weather-icons/less/mappings/wi-wmo4680.less
-gpu/static/css/icons/weather-icons/less/mappings/wi-yahoo.less
-gpu/static/css/icons/weather-icons/sass/weather-icons-classes.scss
-gpu/static/css/icons/weather-icons/sass/weather-icons-core.scss
-gpu/static/css/icons/weather-icons/sass/weather-icons-variables.scss
-gpu/static/css/icons/weather-icons/sass/weather-icons-wind.min.scss
-gpu/static/css/icons/weather-icons/sass/weather-icons-wind.scss
-gpu/static/css/icons/weather-icons/sass/weather-icons.min.scss
-gpu/static/css/icons/weather-icons/sass/weather-icons.scss
-gpu/static/css/icons/weather-icons/sass/icon-classes/classes-beaufort.scss
-gpu/static/css/icons/weather-icons/sass/icon-classes/classes-day.scss
-gpu/static/css/icons/weather-icons/sass/icon-classes/classes-direction.scss
-gpu/static/css/icons/weather-icons/sass/icon-classes/classes-misc.scss
-gpu/static/css/icons/weather-icons/sass/icon-classes/classes-moon-aliases.scss
-gpu/static/css/icons/weather-icons/sass/icon-classes/classes-moon.scss
-gpu/static/css/icons/weather-icons/sass/icon-classes/classes-neutral.scss
-gpu/static/css/icons/weather-icons/sass/icon-classes/classes-night.scss
-gpu/static/css/icons/weather-icons/sass/icon-classes/classes-time.scss
-gpu/static/css/icons/weather-icons/sass/icon-classes/classes-wind-aliases.scss
-gpu/static/css/icons/weather-icons/sass/icon-classes/classes-wind-degrees.scss
-gpu/static/css/icons/weather-icons/sass/icon-classes/classes-wind.scss
-gpu/static/css/icons/weather-icons/sass/icon-variables/variables-beaufort.scss
-gpu/static/css/icons/weather-icons/sass/icon-variables/variables-day.scss
-gpu/static/css/icons/weather-icons/sass/icon-variables/variables-direction.scss
-gpu/static/css/icons/weather-icons/sass/icon-variables/variables-misc.scss
-gpu/static/css/icons/weather-icons/sass/icon-variables/variables-moon.scss
-gpu/static/css/icons/weather-icons/sass/icon-variables/variables-neutral.scss
-gpu/static/css/icons/weather-icons/sass/icon-variables/variables-night.scss
-gpu/static/css/icons/weather-icons/sass/icon-variables/variables-time.scss
-gpu/static/css/icons/weather-icons/sass/icon-variables/variables-wind-names.scss
-gpu/static/css/icons/weather-icons/sass/mappings/wi-forecast-io.scss
-gpu/static/css/icons/weather-icons/sass/mappings/wi-owm.scss
-gpu/static/css/icons/weather-icons/sass/mappings/wi-wmo4680.scss
-gpu/static/css/icons/weather-icons/sass/mappings/wi-yahoo.scss
-gpu/static/img/30-11-2022_13-24-11-689984.jpg
-gpu/static/img/30-11-2022_13-25-04-365145.jpg
-gpu/static/img/30-11-2022_13-25-22-701122.jpg
-gpu/static/img/30-11-2022_13-25-29-134706.jpg
-gpu/static/js/app-style-switcher.js
-gpu/static/js/custom.js
-gpu/static/js/sidebarmenu.js
-gpu/static/js/waves.js
-gpu/static/js/pages/dashboards/dashboard1.js
-gpu/static/plugins/.DS_Store
-gpu/static/plugins/bower_components/.DS_Store
-gpu/static/plugins/bower_components/chartist/dist/chartist.min.css
-gpu/static/plugins/bower_components/chartist/dist/chartist.min.js
-gpu/static/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css
-gpu/static/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js
-gpu/static/plugins/bower_components/counterup/jquery.counterup.min.js
-gpu/static/plugins/bower_components/gmaps/gmaps.js
-gpu/static/plugins/bower_components/gmaps/gmaps.min.js
-gpu/static/plugins/bower_components/gmaps/gmaps.min.js.map
-gpu/static/plugins/bower_components/gmaps/jquery.gmaps.js
-gpu/static/plugins/bower_components/gmaps/lib/gmaps.controls.js
-gpu/static/plugins/bower_components/gmaps/lib/gmaps.core.js
-gpu/static/plugins/bower_components/gmaps/lib/gmaps.events.js
-gpu/static/plugins/bower_components/gmaps/lib/gmaps.geofences.js
-gpu/static/plugins/bower_components/gmaps/lib/gmaps.geometry.js
-gpu/static/plugins/bower_components/gmaps/lib/gmaps.layers.js
-gpu/static/plugins/bower_components/gmaps/lib/gmaps.map_types.js
-gpu/static/plugins/bower_components/gmaps/lib/gmaps.markers.js
-gpu/static/plugins/bower_components/gmaps/lib/gmaps.native_extensions.js
-gpu/static/plugins/bower_components/gmaps/lib/gmaps.overlays.js
-gpu/static/plugins/bower_components/gmaps/lib/gmaps.routes.js
-gpu/static/plugins/bower_components/gmaps/lib/gmaps.static.js
-gpu/static/plugins/bower_components/gmaps/lib/gmaps.streetview.js
-gpu/static/plugins/bower_components/gmaps/lib/gmaps.styles.js
-gpu/static/plugins/bower_components/gmaps/lib/gmaps.utils.js
-gpu/static/plugins/bower_components/jquery/dist/core.js
-gpu/static/plugins/bower_components/jquery/dist/jquery.min.js
-gpu/static/plugins/bower_components/jquery/dist/jquery.slim.min.js
-gpu/static/plugins/bower_components/jquery-sparkline/jquery.charts-sparkline.js
-gpu/static/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js
-gpu/static/plugins/bower_components/perfect-scrollbar/dist/perfect-scrollbar.common.js
-gpu/static/plugins/bower_components/perfect-scrollbar/dist/perfect-scrollbar.esm.js
-gpu/static/plugins/bower_components/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js
-gpu/static/plugins/bower_components/perfect-scrollbar/dist/perfect-scrollbar.min.js
-gpu/static/plugins/bower_components/perfect-scrollbar/dist/css/perfect-scrollbar.min.css
-gpu/static/plugins/bower_components/perfect-scrollbar/dist/js/perfect-scrollbar.jquery.min.js
-gpu/static/plugins/bower_components/perfect-scrollbar/dist/js/perfect-scrollbar.min.js
-gpu/static/plugins/bower_components/popper.js/dist/popper-utils.min.js
-gpu/static/plugins/bower_components/popper.js/dist/popper.min.js
-gpu/static/plugins/bower_components/popper.js/dist/esm/popper-utils.min.js
-gpu/static/plugins/bower_components/popper.js/dist/esm/popper.min.js
-gpu/static/plugins/bower_components/popper.js/dist/umd/popper-utils.min.js
-gpu/static/plugins/bower_components/popper.js/dist/umd/popper.min.js
-gpu/static/plugins/images/.DS_Store
-gpu/static/plugins/images/custom-select.png
-gpu/static/plugins/images/favicon.png
-gpu/static/plugins/images/logo-icon.png
-gpu/static/plugins/images/logo-light-icon.png
-gpu/static/plugins/images/logo-light-text.png
-gpu/static/plugins/images/logo-text.png
-gpu/static/plugins/images/large/img1.jpg
-gpu/static/plugins/images/users/1-old.jpg
-gpu/static/plugins/images/users/1.jpg
-gpu/static/plugins/images/users/1.png
-gpu/static/plugins/images/users/2.jpg
-gpu/static/plugins/images/users/2.png
-gpu/static/plugins/images/users/3.jpg
-gpu/static/plugins/images/users/3.png
-gpu/static/plugins/images/users/4.jpg
-gpu/static/plugins/images/users/5.jpg
-gpu/static/plugins/images/users/6.jpg
-gpu/static/plugins/images/users/7.jpg
-gpu/static/plugins/images/users/8.jpg
-gpu/static/plugins/images/users/agent.jpg
-gpu/static/plugins/images/users/agent2.jpg
-gpu/static/plugins/images/users/arijit.jpg
-gpu/static/plugins/images/users/d1.jpg
-gpu/static/plugins/images/users/d2.jpg
-gpu/static/plugins/images/users/d3.jpg
-gpu/static/plugins/images/users/d4.jpg
-gpu/static/plugins/images/users/d5.jpg
-gpu/static/plugins/images/users/genu.jpg
-gpu/static/plugins/images/users/govinda.jpg
-gpu/static/plugins/images/users/hritik.jpg
-gpu/static/plugins/images/users/pawandeep.jpg
-gpu/static/plugins/images/users/profile.png
-gpu/static/plugins/images/users/ritesh.jpg
-gpu/static/plugins/images/users/sonu.jpg
-gpu/static/plugins/images/users/varun.jpg
-gpu/templates/camera.html
-gpu/templates/chart.html
-gpu/templates/index.html
-gpu/templates/score.html
-gpu/templates/video.html
+# gpu/static/bootstrap/dist/.DS_Store
+# gpu/static/bootstrap/dist/css/bootstrap-grid.css
+# gpu/static/bootstrap/dist/css/bootstrap-grid.css.map
+# gpu/static/bootstrap/dist/css/bootstrap-grid.min.css
+# gpu/static/bootstrap/dist/css/bootstrap-grid.min.css.map
+# gpu/static/bootstrap/dist/css/bootstrap-grid.rtl.css
+# gpu/static/bootstrap/dist/css/bootstrap-grid.rtl.css.map
+# gpu/static/bootstrap/dist/css/bootstrap-grid.rtl.min.css
+# gpu/static/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map
+# gpu/static/bootstrap/dist/css/bootstrap-reboot.css
+# gpu/static/bootstrap/dist/css/bootstrap-reboot.css.map
+# gpu/static/bootstrap/dist/css/bootstrap-reboot.min.css
+# gpu/static/bootstrap/dist/css/bootstrap-reboot.min.css.map
+# gpu/static/bootstrap/dist/css/bootstrap-reboot.rtl.css
+# gpu/static/bootstrap/dist/css/bootstrap-reboot.rtl.css.map
+# gpu/static/bootstrap/dist/css/bootstrap-reboot.rtl.min.css
+# gpu/static/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map
+# gpu/static/bootstrap/dist/css/bootstrap-utilities.css
+# gpu/static/bootstrap/dist/css/bootstrap-utilities.css.map
+# gpu/static/bootstrap/dist/css/bootstrap-utilities.min.css
+# gpu/static/bootstrap/dist/css/bootstrap-utilities.min.css.map
+# gpu/static/bootstrap/dist/css/bootstrap-utilities.rtl.css
+# gpu/static/bootstrap/dist/css/bootstrap-utilities.rtl.css.map
+# gpu/static/bootstrap/dist/css/bootstrap-utilities.rtl.min.css
+# gpu/static/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map
+# gpu/static/bootstrap/dist/css/bootstrap.css
+# gpu/static/bootstrap/dist/css/bootstrap.css.map
+# gpu/static/bootstrap/dist/css/bootstrap.min.css
+# gpu/static/bootstrap/dist/css/bootstrap.min.css.map
+# gpu/static/bootstrap/dist/css/bootstrap.rtl.css
+# gpu/static/bootstrap/dist/css/bootstrap.rtl.css.map
+# gpu/static/bootstrap/dist/css/bootstrap.rtl.min.css
+# gpu/static/bootstrap/dist/css/bootstrap.rtl.min.css.map
+# gpu/static/bootstrap/dist/js/bootstrap.bundle.js
+# gpu/static/bootstrap/dist/js/bootstrap.bundle.js.map
+# gpu/static/bootstrap/dist/js/bootstrap.bundle.min.js
+# gpu/static/bootstrap/dist/js/bootstrap.bundle.min.js.map
+# gpu/static/bootstrap/dist/js/bootstrap.esm.js
+# gpu/static/bootstrap/dist/js/bootstrap.esm.js.map
+# gpu/static/bootstrap/dist/js/bootstrap.esm.min.js
+# gpu/static/bootstrap/dist/js/bootstrap.esm.min.js.map
+# gpu/static/bootstrap/dist/js/bootstrap.js
+# gpu/static/bootstrap/dist/js/bootstrap.js.map
+# gpu/static/bootstrap/dist/js/bootstrap.min.js
+# gpu/static/bootstrap/dist/js/bootstrap.min.js.map
+# gpu/static/css/.DS_Store
+# gpu/static/css/style.css
+# gpu/static/css/style.min.css
+# gpu/static/css/icons/.DS_Store
+# gpu/static/css/icons/font-awesome/css/fa-brands.css
+# gpu/static/css/icons/font-awesome/css/fa-brands.min.css
+# gpu/static/css/icons/font-awesome/css/fa-regular.css
+# gpu/static/css/icons/font-awesome/css/fa-regular.min.css
+# gpu/static/css/icons/font-awesome/css/fa-solid.css
+# gpu/static/css/icons/font-awesome/css/fa-solid.min.css
+# gpu/static/css/icons/font-awesome/css/fontawesome-all.css
+# gpu/static/css/icons/font-awesome/css/fontawesome-all.min.css
+# gpu/static/css/icons/font-awesome/css/fontawesome.css
+# gpu/static/css/icons/font-awesome/css/fontawesome.min.css
+# gpu/static/css/icons/font-awesome/less/_animated.less
+# gpu/static/css/icons/font-awesome/less/_bordered-pulled.less
+# gpu/static/css/icons/font-awesome/less/_core.less
+# gpu/static/css/icons/font-awesome/less/_fixed-width.less
+# gpu/static/css/icons/font-awesome/less/_icons.less
+# gpu/static/css/icons/font-awesome/less/_larger.less
+# gpu/static/css/icons/font-awesome/less/_list.less
+# gpu/static/css/icons/font-awesome/less/_mixins.less
+# gpu/static/css/icons/font-awesome/less/_rotated-flipped.less
+# gpu/static/css/icons/font-awesome/less/_screen-reader.less
+# gpu/static/css/icons/font-awesome/less/_stacked.less
+# gpu/static/css/icons/font-awesome/less/_variables.less
+# gpu/static/css/icons/font-awesome/less/fa-brands.less
+# gpu/static/css/icons/font-awesome/less/fa-regular.less
+# gpu/static/css/icons/font-awesome/less/fa-solid.less
+# gpu/static/css/icons/font-awesome/less/fontawesome.less
+# gpu/static/css/icons/font-awesome/scss/_animated.scss
+# gpu/static/css/icons/font-awesome/scss/_bordered-pulled.scss
+# gpu/static/css/icons/font-awesome/scss/_core.scss
+# gpu/static/css/icons/font-awesome/scss/_fixed-width.scss
+# gpu/static/css/icons/font-awesome/scss/_icons.scss
+# gpu/static/css/icons/font-awesome/scss/_larger.scss
+# gpu/static/css/icons/font-awesome/scss/_list.scss
+# gpu/static/css/icons/font-awesome/scss/_mixins.scss
+# gpu/static/css/icons/font-awesome/scss/_rotated-flipped.scss
+# gpu/static/css/icons/font-awesome/scss/_screen-reader.scss
+# gpu/static/css/icons/font-awesome/scss/_stacked.scss
+# gpu/static/css/icons/font-awesome/scss/_variables.scss
+# gpu/static/css/icons/font-awesome/scss/fa-brands.scss
+# gpu/static/css/icons/font-awesome/scss/fa-regular.scss
+# gpu/static/css/icons/font-awesome/scss/fa-solid.scss
+# gpu/static/css/icons/font-awesome/scss/fontawesome.scss
+# gpu/static/css/icons/font-awesome/webfonts/fa-brands-400.eot
+# gpu/static/css/icons/font-awesome/webfonts/fa-brands-400.svg
+# gpu/static/css/icons/font-awesome/webfonts/fa-brands-400.ttf
+# gpu/static/css/icons/font-awesome/webfonts/fa-brands-400.woff
+# gpu/static/css/icons/font-awesome/webfonts/fa-brands-400.woff2
+# gpu/static/css/icons/font-awesome/webfonts/fa-regular-400.eot
+# gpu/static/css/icons/font-awesome/webfonts/fa-regular-400.svg
+# gpu/static/css/icons/font-awesome/webfonts/fa-regular-400.ttf
+# gpu/static/css/icons/font-awesome/webfonts/fa-regular-400.woff
+# gpu/static/css/icons/font-awesome/webfonts/fa-regular-400.woff2
+# gpu/static/css/icons/font-awesome/webfonts/fa-solid-900.eot
+# gpu/static/css/icons/font-awesome/webfonts/fa-solid-900.svg
+# gpu/static/css/icons/font-awesome/webfonts/fa-solid-900.ttf
+# gpu/static/css/icons/font-awesome/webfonts/fa-solid-900.woff
+# gpu/static/css/icons/font-awesome/webfonts/fa-solid-900.woff2
+# gpu/static/css/icons/material-design-iconic-font/css/material-design-iconic-font.css
+# gpu/static/css/icons/material-design-iconic-font/css/material-design-iconic-font.min.css
+# gpu/static/css/icons/material-design-iconic-font/css/materialdesignicons.min.css
+# gpu/static/css/icons/material-design-iconic-font/fonts/Material-Design-Iconic-Font.eot
+# gpu/static/css/icons/material-design-iconic-font/fonts/Material-Design-Iconic-Font.svg
+# gpu/static/css/icons/material-design-iconic-font/fonts/Material-Design-Iconic-Font.ttf
+# gpu/static/css/icons/material-design-iconic-font/fonts/Material-Design-Iconic-Font.woff
+# gpu/static/css/icons/material-design-iconic-font/fonts/Material-Design-Iconic-Font.woff2
+# gpu/static/css/icons/material-design-iconic-font/fonts/materialdesignicons-webfont.eot
+# gpu/static/css/icons/material-design-iconic-font/fonts/materialdesignicons-webfont.svg
+# gpu/static/css/icons/material-design-iconic-font/fonts/materialdesignicons-webfont.ttf
+# gpu/static/css/icons/material-design-iconic-font/fonts/materialdesignicons-webfont.woff
+# gpu/static/css/icons/material-design-iconic-font/fonts/materialdesignicons-webfont.woff2
+# gpu/static/css/icons/themify-icons/themify-icons.css
+# gpu/static/css/icons/themify-icons/themify-icons.less
+# gpu/static/css/icons/themify-icons/fonts/themify.eot
+# gpu/static/css/icons/themify-icons/fonts/themify.svg
+# gpu/static/css/icons/themify-icons/fonts/themify.ttf
+# gpu/static/css/icons/themify-icons/fonts/themify.woff
+# gpu/static/css/icons/themify-icons/ie7/ie7.css
+# gpu/static/css/icons/themify-icons/ie7/ie7.js
+# gpu/static/css/icons/weather-icons/css/weather-icons-core.css
+# gpu/static/css/icons/weather-icons/css/weather-icons-variables.css
+# gpu/static/css/icons/weather-icons/css/weather-icons-wind.css
+# gpu/static/css/icons/weather-icons/css/weather-icons-wind.min.css
+# gpu/static/css/icons/weather-icons/css/weather-icons.css
+# gpu/static/css/icons/weather-icons/css/weather-icons.min.css
+# gpu/static/css/icons/weather-icons/fonts/weathericons-regular-webfont.eot
+# gpu/static/css/icons/weather-icons/fonts/weathericons-regular-webfont.svg
+# gpu/static/css/icons/weather-icons/fonts/weathericons-regular-webfont.ttf
+# gpu/static/css/icons/weather-icons/fonts/weathericons-regular-webfont.woff
+# gpu/static/css/icons/weather-icons/fonts/weathericons-regular-webfont.woff2
+# gpu/static/css/icons/weather-icons/less/weather-icons-classes.less
+# gpu/static/css/icons/weather-icons/less/weather-icons-core.less
+# gpu/static/css/icons/weather-icons/less/weather-icons-variables.less
+# gpu/static/css/icons/weather-icons/less/weather-icons-wind.less
+# gpu/static/css/icons/weather-icons/less/weather-icons-wind.min.less
+# gpu/static/css/icons/weather-icons/less/weather-icons.less
+# gpu/static/css/icons/weather-icons/less/weather-icons.min.less
+# gpu/static/css/icons/weather-icons/less/css/variables-beaufort.css
+# gpu/static/css/icons/weather-icons/less/css/variables-day.css
+# gpu/static/css/icons/weather-icons/less/css/variables-direction.css
+# gpu/static/css/icons/weather-icons/less/css/variables-misc.css
+# gpu/static/css/icons/weather-icons/less/css/variables-moon.css
+# gpu/static/css/icons/weather-icons/less/css/variables-neutral.css
+# gpu/static/css/icons/weather-icons/less/css/variables-night.css
+# gpu/static/css/icons/weather-icons/less/css/variables-time.css
+# gpu/static/css/icons/weather-icons/less/css/variables-wind-names.css
+# gpu/static/css/icons/weather-icons/less/icon-classes/classes-beaufort.less
+# gpu/static/css/icons/weather-icons/less/icon-classes/classes-day.less
+# gpu/static/css/icons/weather-icons/less/icon-classes/classes-direction.less
+# gpu/static/css/icons/weather-icons/less/icon-classes/classes-misc.less
+# gpu/static/css/icons/weather-icons/less/icon-classes/classes-moon-aliases.less
+# gpu/static/css/icons/weather-icons/less/icon-classes/classes-moon.less
+# gpu/static/css/icons/weather-icons/less/icon-classes/classes-neutral.less
+# gpu/static/css/icons/weather-icons/less/icon-classes/classes-night.less
+# gpu/static/css/icons/weather-icons/less/icon-classes/classes-time.less
+# gpu/static/css/icons/weather-icons/less/icon-classes/classes-wind-aliases.less
+# gpu/static/css/icons/weather-icons/less/icon-classes/classes-wind-degrees.less
+# gpu/static/css/icons/weather-icons/less/icon-classes/classes-wind.less
+# gpu/static/css/icons/weather-icons/less/icon-variables/variables-beaufort.less
+# gpu/static/css/icons/weather-icons/less/icon-variables/variables-day.less
+# gpu/static/css/icons/weather-icons/less/icon-variables/variables-direction.less
+# gpu/static/css/icons/weather-icons/less/icon-variables/variables-misc.less
+# gpu/static/css/icons/weather-icons/less/icon-variables/variables-moon.less
+# gpu/static/css/icons/weather-icons/less/icon-variables/variables-neutral.less
+# gpu/static/css/icons/weather-icons/less/icon-variables/variables-night.less
+# gpu/static/css/icons/weather-icons/less/icon-variables/variables-time.less
+# gpu/static/css/icons/weather-icons/less/icon-variables/variables-wind-names.less
+# gpu/static/css/icons/weather-icons/less/mappings/wi-forecast-io.less
+# gpu/static/css/icons/weather-icons/less/mappings/wi-owm.less
+# gpu/static/css/icons/weather-icons/less/mappings/wi-wmo4680.less
+# gpu/static/css/icons/weather-icons/less/mappings/wi-yahoo.less
+# gpu/static/css/icons/weather-icons/sass/weather-icons-classes.scss
+# gpu/static/css/icons/weather-icons/sass/weather-icons-core.scss
+# gpu/static/css/icons/weather-icons/sass/weather-icons-variables.scss
+# gpu/static/css/icons/weather-icons/sass/weather-icons-wind.min.scss
+# gpu/static/css/icons/weather-icons/sass/weather-icons-wind.scss
+# gpu/static/css/icons/weather-icons/sass/weather-icons.min.scss
+# gpu/static/css/icons/weather-icons/sass/weather-icons.scss
+# gpu/static/css/icons/weather-icons/sass/icon-classes/classes-beaufort.scss
+# gpu/static/css/icons/weather-icons/sass/icon-classes/classes-day.scss
+# gpu/static/css/icons/weather-icons/sass/icon-classes/classes-direction.scss
+# gpu/static/css/icons/weather-icons/sass/icon-classes/classes-misc.scss
+# gpu/static/css/icons/weather-icons/sass/icon-classes/classes-moon-aliases.scss
+# gpu/static/css/icons/weather-icons/sass/icon-classes/classes-moon.scss
+# gpu/static/css/icons/weather-icons/sass/icon-classes/classes-neutral.scss
+# gpu/static/css/icons/weather-icons/sass/icon-classes/classes-night.scss
+# gpu/static/css/icons/weather-icons/sass/icon-classes/classes-time.scss
+# gpu/static/css/icons/weather-icons/sass/icon-classes/classes-wind-aliases.scss
+# gpu/static/css/icons/weather-icons/sass/icon-classes/classes-wind-degrees.scss
+# gpu/static/css/icons/weather-icons/sass/icon-classes/classes-wind.scss
+# gpu/static/css/icons/weather-icons/sass/icon-variables/variables-beaufort.scss
+# gpu/static/css/icons/weather-icons/sass/icon-variables/variables-day.scss
+# gpu/static/css/icons/weather-icons/sass/icon-variables/variables-direction.scss
+# gpu/static/css/icons/weather-icons/sass/icon-variables/variables-misc.scss
+# gpu/static/css/icons/weather-icons/sass/icon-variables/variables-moon.scss
+# gpu/static/css/icons/weather-icons/sass/icon-variables/variables-neutral.scss
+# gpu/static/css/icons/weather-icons/sass/icon-variables/variables-night.scss
+# gpu/static/css/icons/weather-icons/sass/icon-variables/variables-time.scss
+# gpu/static/css/icons/weather-icons/sass/icon-variables/variables-wind-names.scss
+# gpu/static/css/icons/weather-icons/sass/mappings/wi-forecast-io.scss
+# gpu/static/css/icons/weather-icons/sass/mappings/wi-owm.scss
+# gpu/static/css/icons/weather-icons/sass/mappings/wi-wmo4680.scss
+# gpu/static/css/icons/weather-icons/sass/mappings/wi-yahoo.scss
+# gpu/static/img/30-11-2022_13-24-11-689984.jpg
+# gpu/static/img/30-11-2022_13-25-04-365145.jpg
+# gpu/static/img/30-11-2022_13-25-22-701122.jpg
+# gpu/static/img/30-11-2022_13-25-29-134706.jpg
+# gpu/static/js/app-style-switcher.js
+# gpu/static/js/custom.js
+# gpu/static/js/sidebarmenu.js
+# gpu/static/js/waves.js
+# gpu/static/js/pages/dashboards/dashboard1.js
+# gpu/static/plugins/.DS_Store
+# gpu/static/plugins/bower_components/.DS_Store
+# gpu/static/plugins/bower_components/chartist/dist/chartist.min.css
+# gpu/static/plugins/bower_components/chartist/dist/chartist.min.js
+# gpu/static/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css
+# gpu/static/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js
+# gpu/static/plugins/bower_components/counterup/jquery.counterup.min.js
+# gpu/static/plugins/bower_components/gmaps/gmaps.js
+# gpu/static/plugins/bower_components/gmaps/gmaps.min.js
+# gpu/static/plugins/bower_components/gmaps/gmaps.min.js.map
+# gpu/static/plugins/bower_components/gmaps/jquery.gmaps.js
+# gpu/static/plugins/bower_components/gmaps/lib/gmaps.controls.js
+# gpu/static/plugins/bower_components/gmaps/lib/gmaps.core.js
+# gpu/static/plugins/bower_components/gmaps/lib/gmaps.events.js
+# gpu/static/plugins/bower_components/gmaps/lib/gmaps.geofences.js
+# gpu/static/plugins/bower_components/gmaps/lib/gmaps.geometry.js
+# gpu/static/plugins/bower_components/gmaps/lib/gmaps.layers.js
+# gpu/static/plugins/bower_components/gmaps/lib/gmaps.map_types.js
+# gpu/static/plugins/bower_components/gmaps/lib/gmaps.markers.js
+# gpu/static/plugins/bower_components/gmaps/lib/gmaps.native_extensions.js
+# gpu/static/plugins/bower_components/gmaps/lib/gmaps.overlays.js
+# gpu/static/plugins/bower_components/gmaps/lib/gmaps.routes.js
+# gpu/static/plugins/bower_components/gmaps/lib/gmaps.static.js
+# gpu/static/plugins/bower_components/gmaps/lib/gmaps.streetview.js
+# gpu/static/plugins/bower_components/gmaps/lib/gmaps.styles.js
+# gpu/static/plugins/bower_components/gmaps/lib/gmaps.utils.js
+# gpu/static/plugins/bower_components/jquery/dist/core.js
+# gpu/static/plugins/bower_components/jquery/dist/jquery.min.js
+# gpu/static/plugins/bower_components/jquery/dist/jquery.slim.min.js
+# gpu/static/plugins/bower_components/jquery-sparkline/jquery.charts-sparkline.js
+# gpu/static/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js
+# gpu/static/plugins/bower_components/perfect-scrollbar/dist/perfect-scrollbar.common.js
+# gpu/static/plugins/bower_components/perfect-scrollbar/dist/perfect-scrollbar.esm.js
+# gpu/static/plugins/bower_components/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js
+# gpu/static/plugins/bower_components/perfect-scrollbar/dist/perfect-scrollbar.min.js
+# gpu/static/plugins/bower_components/perfect-scrollbar/dist/css/perfect-scrollbar.min.css
+# gpu/static/plugins/bower_components/perfect-scrollbar/dist/js/perfect-scrollbar.jquery.min.js
+# gpu/static/plugins/bower_components/perfect-scrollbar/dist/js/perfect-scrollbar.min.js
+# gpu/static/plugins/bower_components/popper.js/dist/popper-utils.min.js
+# gpu/static/plugins/bower_components/popper.js/dist/popper.min.js
+# gpu/static/plugins/bower_components/popper.js/dist/esm/popper-utils.min.js
+# gpu/static/plugins/bower_components/popper.js/dist/esm/popper.min.js
+# gpu/static/plugins/bower_components/popper.js/dist/umd/popper-utils.min.js
+# gpu/static/plugins/bower_components/popper.js/dist/umd/popper.min.js
+# gpu/static/plugins/images/.DS_Store
+# gpu/static/plugins/images/custom-select.png
+# gpu/static/plugins/images/favicon.png
+# gpu/static/plugins/images/logo-icon.png
+# gpu/static/plugins/images/logo-light-icon.png
+# gpu/static/plugins/images/logo-light-text.png
+# gpu/static/plugins/images/logo-text.png
+# gpu/static/plugins/images/large/img1.jpg
+# gpu/static/plugins/images/users/1-old.jpg
+# gpu/static/plugins/images/users/1.jpg
+# gpu/static/plugins/images/users/1.png
+# gpu/static/plugins/images/users/2.jpg
+# gpu/static/plugins/images/users/2.png
+# gpu/static/plugins/images/users/3.jpg
+# gpu/static/plugins/images/users/3.png
+# gpu/static/plugins/images/users/4.jpg
+# gpu/static/plugins/images/users/5.jpg
+# gpu/static/plugins/images/users/6.jpg
+# gpu/static/plugins/images/users/7.jpg
+# gpu/static/plugins/images/users/8.jpg
+# gpu/static/plugins/images/users/agent.jpg
+# gpu/static/plugins/images/users/agent2.jpg
+# gpu/static/plugins/images/users/arijit.jpg
+# gpu/static/plugins/images/users/d1.jpg
+# gpu/static/plugins/images/users/d2.jpg
+# gpu/static/plugins/images/users/d3.jpg
+# gpu/static/plugins/images/users/d4.jpg
+# gpu/static/plugins/images/users/d5.jpg
+# gpu/static/plugins/images/users/genu.jpg
+# gpu/static/plugins/images/users/govinda.jpg
+# gpu/static/plugins/images/users/hritik.jpg
+# gpu/static/plugins/images/users/pawandeep.jpg
+# gpu/static/plugins/images/users/profile.png
+# gpu/static/plugins/images/users/ritesh.jpg
+# gpu/static/plugins/images/users/sonu.jpg
+# gpu/static/plugins/images/users/varun.jpg
+# gpu/templates/camera.html
+# gpu/templates/chart.html
+# gpu/templates/index.html
+# gpu/templates/score.html
+# gpu/templates/video.html
 need/ui/static/bootstrap/dist/.DS_Store
 need/ui/static/bootstrap/dist/css/bootstrap-grid.css
 need/ui/static/bootstrap/dist/css/bootstrap-grid.css.map
