@@ -18,7 +18,7 @@ from functools import lru_cache
 app = Flask(__name__)
 
 # load label
-app.config['UPLOAD_FOLDER'] = "RecievedImg"
+app.config['UPLOAD_FOLDER'] = "static/img"
 app.config['LABEL'] = "RecievedLabel"
 app.config['VIDEO'] = "RecievedVideo"
 
@@ -157,6 +157,7 @@ def image():
             lst.extend(boxes[i])
             # append confidences
             lst.append(confidences[i])
+            lst.append(name)
             res.append(lst)
 
             info += f"{class_ids[i]} {x} {y} {w} {h}\n"
@@ -180,15 +181,16 @@ def image():
             last = datetime.min
         now = datetime.strptime(name, formatDatetime)
 
-        if info != "" and [value for value in confidences if value < 0.9] == [] and (now-last).seconds > skipTime:
-            # save image
-            path_to_save = saveFile(
-                app.config['UPLOAD_FOLDER'], image, name, "jpg")
-            re = cv2.imread(path_to_save)
-            f = open(pathsave, "w")
-            # save label
-            f.write(info)
-            f.close()
+        # if info != "" and [value for value in confidences if value < 0.9] == [] and (now-last).seconds > skipTime:
+        # save image
+        path_to_save = saveFile(
+            app.config['UPLOAD_FOLDER'], image, name, "jpg")
+        # saveFile(app.config['UPLOAD_FOLDER_IMAGE']
+        # re = cv2.imread(path_to_save)
+        # f = open(pathsave, "w")
+        # save label
+        # f.write(info)
+        # f.close()
         print(f"to:   {datetime.now().strftime(formatDatetime)}")
         return res
     return {}

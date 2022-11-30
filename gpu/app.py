@@ -3,13 +3,18 @@ from flask import Flask, flash, request, redirect, url_for, render_template, Res
 import cv2
 import requests
 from werkzeug.utils import secure_filename
+import os
 app = Flask(__name__)
 
 address = "http://127.0.0.1:30701"
 colors = {"with_mask": (0, 255, 0), "without_mask": (0, 0, 255)}
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 WITHOUT_MASK = "Không đeo khẩu trang"
 WITH_MASK = "Đeo khẩu trang"
+
+UPLOAD_FOLDER = 'C:/Users/tranq/Downloads/yolov4-facemask/gpu/static/img'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 def draw(img, label, confidence, x, y, x_plus_w, y_plus_h):
@@ -89,16 +94,22 @@ def video_feed():
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
 @app.route('/send', methods=['POST'])
 def upload_image():
     if 'file' not in request.files:
         flash('No file part')
         return redirect(request.url)
     file = request.files['file']
+    # img_filename = upload_file(file)
 
     URL = "http://127.0.0.1:30701"
-    param = request.files
-    response = requests.post(URL, files=param)
+    params = request.files
+    response = requests.post(URL, files=params)
 
     if file and allowed_file(file.filename):
         if response.status_code != 500 and response.ok:
@@ -107,27 +118,30 @@ def upload_image():
             s = json.dumps(data, indent=4, sort_keys=True)
             listResponse = json.loads(s)
             lable = listResponse[0][0]
+            img_filename = listResponse[0][6] + '.jpg'
             result = ""
             if lable == "without_mask":
                 result = WITHOUT_MASK
             if lable == "with_mask":
                 result = WITH_MASK
-            filename = secure_filename(file.filename)
-            # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            # flash('Image successfully uploaded and displayed below')
-            return render_template('./index.html', filename=filename, result=result)
+
+            return render_template('./index.html', filename=img_filename, result=result)
         return "<h2>Can not regnization</h2>"
+
+
+def upload_file(file):
     if file.filename == '':
-        flash('No image selected for uploading')
+        flash('No selected file')
         return redirect(request.url)
-    else:
-        flash('Allowed image type are - png, jpg, jpeg, gif')
-        return redirect(request.url)
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        return filename
 
 
 @app.route('/display/<filename>')
 def display_image(filename):
-    return redirect(url_for('static', filename='uploads/' + filename), code=301)
+    return redirect(url_for('static', filename='img/' + filename), code=301)
 
 
 @app.route('/video')
