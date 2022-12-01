@@ -215,10 +215,10 @@ def resetValidate():
     return json_data
 
 
-@app.route('/user-confirm-label', methods=['GET'])
+@app.route('/user-confirm-label', methods=['POST'])
 def userConfirm():
-    predict = request.args.get('predict')
-    key = bool(request.args.get('key'))
+    predict = request.form['predict']
+    key = bool(request.form['key'])
     if (predict == 'without_mask'):
         if (key == True):
             objectInFireBase.append('without_mask')

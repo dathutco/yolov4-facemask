@@ -125,8 +125,15 @@ def upload_image():
             if lable == "with_mask":
                 result = WITH_MASK
 
-            return render_template('./index.html', filename=img_filename, result=result)
+            return render_template('./index.html', filename=img_filename, result=result, lable=lable)
         return "<h2>Can not regnization</h2>"
+
+
+@app.route('/user-confirm-label', methods=['GET'])
+def userConfirm():
+    predict = request.args.get('predict')
+    key = bool(request.args.get('key'))
+    return "hello"
 
 
 def upload_file(file):
