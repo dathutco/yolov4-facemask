@@ -127,6 +127,9 @@ def getLabel(dir, file):
 @app.route('/', methods=['POST', 'GET'])
 def image():
     if request.method == 'POST':
+        isVideo = False
+        if (request.args != None):
+            isVideo = bool(request.args.getlist('save')[0])
         # Take request
         name = f"{datetime.now().strftime(formatDatetime)}"
         print(f"from: {name}")
@@ -173,10 +176,13 @@ def image():
             objectInFireBase.append(label)
             objectInFireBase.append(nowTime)
             objectInFireBase.append(img.filename)
+
         pathsave = os.path.join(app.config['LABEL'], f"{name}.txt")
         path_to_save = saveFile(
             app.config['UPLOAD_FOLDER'], image, name, "jpg")
-
+        if (isVideo == True and len(objectInFireBase) > 6):
+            insertData(objectInFireBase[0], objectInFireBase[1], objectInFireBase[2], objectInFireBase[3],
+                       objectInFireBase[4], objectInFireBase[5], objectInFireBase[6], objectInFireBase[4])
         # f.close()
         print(f"to:   {datetime.now().strftime(formatDatetime)}")
         return res
@@ -185,7 +191,6 @@ def image():
 
 @app.route('/ui/user-confirm-label', methods=['POST'])
 def userConfirm():
-    print(request.json)
     data = request.json
     # data = json.load(jsonData)
     predict = data['predict']
