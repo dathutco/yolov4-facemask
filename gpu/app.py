@@ -167,5 +167,21 @@ def showScore():
     return render_template("score.html")
 
 
+@app.route('/user-confirm-label', methods=['POST'])
+def userConfirm():
+    try:
+        URL = "http://127.0.0.1:30701/ui/user-confirm-label"
+        params = {
+            "predict": request.form['predict'],
+            "key": request.form['key']
+        }
+        response = requests.post(URL, json=params)
+        if response.status_code == 200 and response.ok:
+            return render_template("index.html")
+    except Exception as ex:
+        print(ex)
+        return render_template('error.html', msg=ex)
+
+
 if __name__ == '__main__':
     app.run(debug=True)

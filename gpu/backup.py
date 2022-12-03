@@ -14,6 +14,7 @@ from datetime import datetime, time
 
 from functools import lru_cache
 from flask_cors import CORS
+import json
 
 # Create Flask Server Backend
 app = Flask(__name__)
@@ -184,8 +185,11 @@ def image():
 
 @app.route('/ui/user-confirm-label', methods=['POST'])
 def userConfirm():
-    predict = request.form['predict']
-    key = bool(request.form['key'])
+    print(request.json)
+    data = request.json
+    # data = json.load(jsonData)
+    predict = data['predict']
+    key = bool(data['key'])
     if (predict == 'without_mask'):
         if (key == True):
             objectInFireBase.append('without_mask')
@@ -196,9 +200,13 @@ def userConfirm():
             objectInFireBase.append('with_mask')
         else:
             objectInFireBase.append('without_mask')
-    insertData(objectInFireBase[0], objectInFireBase[1], objectInFireBase[2], objectInFireBase[3],
-               objectInFireBase[4], objectInFireBase[5], objectInFireBase[6], objectInFireBase[7])
-    return "Confirm successfully"
+    if (len(objectInFireBase) > 7):
+        insertData(objectInFireBase[0], objectInFireBase[1], objectInFireBase[2], objectInFireBase[3],
+                   objectInFireBase[4], objectInFireBase[5], objectInFireBase[6], objectInFireBase[7])
+    return {
+        "resutl": True,
+        "status": 200
+    }
 
 
 @app.route('/ui/get-all-data', methods=['GET'])
