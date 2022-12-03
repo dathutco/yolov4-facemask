@@ -42,7 +42,7 @@
         setInterval(callAPI, 10000);
         function callAPI() {
             jQuery.ajax({
-                url: url + ":" + port + "/score",
+                url: url + ":" + port + "/ui/score",
                 type: 'GET',
                 success: function (data) {
                     let accuracy = Number(data["accuracy"])

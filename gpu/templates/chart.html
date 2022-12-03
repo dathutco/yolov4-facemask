@@ -192,8 +192,9 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        const URL = 'http://127.0.0.1:30701/ui';
         jQuery.ajax({
-            url: 'http://127.0.0.1:30701/get-all-data',
+            url: URL + '/get-all-data',
             type: 'GET',
             success: function (data) {
                 drawChart(Object.values(data))
@@ -206,7 +207,7 @@
 
         function callAPI() {
             jQuery.ajax({
-                url: 'http://127.0.0.1:30701/get-all-data',
+                url: URL + '/get-all-data',
                 type: 'GET',
                 success: function (data) {
                     drawChart(Object.values(data))
@@ -266,7 +267,7 @@
         listMask = [];
         listWithoutMask = [];
         jQuery.ajax({
-            url: 'http://127.0.0.1:30701/get-data-by-time',
+            url: URL + '/get-data-by-time',
             type: 'GET',
             success: function (data) {
                 listMask = JSON.parse(data['mask'])
@@ -278,7 +279,7 @@
         setInterval(callAPI2, 10000);
         function callAPI2() {
             jQuery.ajax({
-                url: 'http://127.0.0.1:30701/get-data-by-time',
+                url: URL + '/get-data-by-time',
                 type: 'GET',
                 success: function (data) {
                     // drawChart2(Object.values(data))

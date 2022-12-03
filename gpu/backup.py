@@ -13,9 +13,11 @@ import time as t
 from datetime import datetime, time
 
 from functools import lru_cache
+from flask_cors import CORS
 
 # Create Flask Server Backend
 app = Flask(__name__)
+cors = CORS(app, resources={r"/ui/*": {"origins": "*"}})
 
 # load label
 app.config['UPLOAD_FOLDER'] = "static/img"
@@ -181,38 +183,32 @@ def image():
             last = datetime.min
         now = datetime.strptime(name, formatDatetime)
 
-        # if info != "" and [value for value in confidences if value < 0.9] == [] and (now-last).seconds > skipTime:
-        # save image
         path_to_save = saveFile(
             app.config['UPLOAD_FOLDER'], image, name, "jpg")
-        # saveFile(app.config['UPLOAD_FOLDER_IMAGE']
-        # re = cv2.imread(path_to_save)
-        # f = open(pathsave, "w")
-        # save label
-        # f.write(info)
+
         # f.close()
         print(f"to:   {datetime.now().strftime(formatDatetime)}")
         return res
     return {}
 
 
-@app.route('/resetValidate', methods=['GET'])
-def resetValidate():
-    data = {'predict': [], 'label': []}
-    df = pd.DataFrame(data=data)
+# @app.route('/resetValidate', methods=['GET'])
+# def resetValidate():
+#     data = {'predict': [], 'label': []}
+#     df = pd.DataFrame(data=data)
 
-    mask = os.listdir(dirMask)
-    nomask = os.listdir(dirNoMask)
-    for i, j in zip(mask, nomask):
-        rowi = getLabel(dirMask, i)
-        rowj = getLabel(dirNoMask, j)
-        df.loc[len(df.index)] = rowi
-        df.loc[len(df.index)] = rowj
-    """
-    Then save to table
-    """
-    json_data = df.to_json(orient='values')
-    return json_data
+#     mask = os.listdir(dirMask)
+#     nomask = os.listdir(dirNoMask)
+#     for i, j in zip(mask, nomask):
+#         rowi = getLabel(dirMask, i)
+#         rowj = getLabel(dirNoMask, j)
+#         df.loc[len(df.index)] = rowi
+#         df.loc[len(df.index)] = rowj
+#     """
+#     Then save to table
+#     """
+#     json_data = df.to_json(orient='values')
+#     return json_data
 
 
 @app.route('/user-confirm-label', methods=['POST'])
@@ -234,7 +230,7 @@ def userConfirm():
     return "Confirm successfully"
 
 
-@app.route('/get-all-data', methods=['GET'])
+@app.route('/ui/get-all-data', methods=['GET'])
 def getAllData():
     listData = getAllDataInfireBase()
     mark = 0
@@ -258,7 +254,7 @@ def getAllDataInfireBase():
     return listData
 
 
-@app.route('/get-data-by-time', methods=['GET'])
+@app.route('/ui/get-data-by-time', methods=['GET'])
 def getDataByTime():
     objectData = ref.get()
     listData = objectData.values()
@@ -305,16 +301,6 @@ def getDataByTime():
     }
 
 
-@app.route("/chart")
-def home():
-    return render_template("chart.html")
-
-
-@app.route("/show-score")
-def showScore():
-    return render_template("score.html")
-
-
 def insertData(x, y, w, h, label, nowTime, img, confirmedLable):
     objectInFireBase.clear()
     getAllDataInfireBase.cache_clear()
@@ -330,7 +316,7 @@ def insertData(x, y, w, h, label, nowTime, img, confirmedLable):
     })
 
 
-@app.route('/score', methods=['GET'])
+@app.route('/ui/score', methods=['GET'])
 def score():
     listData = getAllDataInfireBase()
     predict = list()
@@ -349,27 +335,27 @@ def score():
     return {"accuracy": acc, "recall": recall, "precision": precision, "f1-score": f1}
 
 
-@app.route('/validate', methods=['GET'])
-def validate():
-    predict = request.form.get('predict')
-    key = bool(request.form.get('key'))
+# @app.route('/validate', methods=['GET'])
+# def validate():
+#     predict = request.form.get('predict')
+#     key = bool(request.form.get('key'))
 
-    if (key == True):
-        label = predict
-    else:
-        if (predict == str(classes[0])):
-            label = str(classes[1])
-        else:
-            label = str(classes[0])
+#     if (key == True):
+#         label = predict
+#     else:
+#         if (predict == str(classes[0])):
+#             label = str(classes[1])
+#         else:
+#             label = str(classes[0])
 
-    """
-    edit database
-    """
-    data = {'predict': ["with_mask"], 'label': ["with_mask"]}
-    df = pd.DataFrame(data=data)
-    df.loc[len(df.index)] = [predict, label]
+#     """
+#     edit database
+#     """
+#     data = {'predict': ["with_mask"], 'label': ["with_mask"]}
+#     df = pd.DataFrame(data=data)
+#     df.loc[len(df.index)] = [predict, label]
 
-    return [predict, label]
+#     return [predict, label]
 
 
 @app.route('/video', methods=['POST'])

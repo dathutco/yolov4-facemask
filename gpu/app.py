@@ -11,7 +11,7 @@ colors = {"with_mask": (0, 255, 0), "without_mask": (0, 0, 255)}
 WITHOUT_MASK = "Không đeo khẩu trang"
 WITH_MASK = "Đeo khẩu trang"
 
-UPLOAD_FOLDER = 'C:/Users/tranq/Downloads/yolov4-facemask/gpu/static/img'
+UPLOAD_FOLDER = '/static/img'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -85,7 +85,7 @@ def allowed_file(filename):
 
 @app.route('/')
 def home():
-    return render_template('./index.html')
+    return render_template('./temp.html')
 
 
 @app.route('/video_feed')
@@ -154,6 +154,16 @@ def display_image(filename):
 @app.route('/video')
 def webcamera():
     return render_template('./video.html')
+
+
+@app.route("/chart")
+def chartPage():
+    return render_template("chart.html")
+
+
+@app.route("/show-score")
+def showScore():
+    return render_template("score.html")
 
 
 if __name__ == '__main__':
