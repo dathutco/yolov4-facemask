@@ -234,6 +234,24 @@
             });
 
         }
+        function getDate(timestamp) {
+            let date = new Date();
+            return date.getDate(timestamp);
+            // var day = date.getDay();
+            // var year = date.getYear();
+
+            // var formattedTime = month + '/' + day + '/' + year;
+            // return formattedTime;
+
+        }
+        function getMonth(timestamp) {
+            let date = new Date();
+            return date.getMonth(timestamp) + 1;
+        }
+        function getYear(timestamp) {
+            let date = new Date();
+            return date.getFullYear(timestamp);
+        }
 
         listMask = [];
         listWithoutMask = [];
@@ -241,10 +259,19 @@
             url: URL + '/get-data-by-time',
             type: 'GET',
             success: function (data) {
-                listMask = JSON.parse(data['mask'])
-                listWithoutMask = JSON.parse(data['withoutMask'])
-                drawChart2(listMask, listWithoutMask)
-
+                // listMask = JSON.parse(data['mask'])
+                // listWithoutMask = JSON.parse(data['withoutMask'])
+                // drawChart2(listMask, listWithoutMask)
+                let kq = data.reduce((callback, item) => {
+                    obj = {
+                        "lable": item["lable"],
+                        "date": getDate(item["time"]),
+                        "month": getMonth(item["time"]),
+                        "year": getYear(item["time"])
+                    }
+                    return [...callback, obj]
+                }, []);
+                console.log(kq)
             }
         });
         setInterval(callAPI2, 10000);
@@ -253,11 +280,10 @@
                 url: URL + '/get-data-by-time',
                 type: 'GET',
                 success: function (data) {
-                    // drawChart2(Object.values(data))
-                    // console.log(data['mask'])
-                    listMask = JSON.parse(data['mask'])
-                    listWithoutMask = JSON.parse(data['withoutMask'])
-                    drawChart2(listMask, listWithoutMask)
+
+                    // listMask = JSON.parse(data['mask'])
+                    // listWithoutMask = JSON.parse(data['withoutMask'])
+                    // drawChart2(listMask, listWithoutMask)
                 }
             });
         }

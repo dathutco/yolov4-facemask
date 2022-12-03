@@ -236,7 +236,7 @@ def getAllDataInfireBase():
     print("run cache")
     objectData = ref.get()
     listData = objectData.values()
-    print(len(listData))
+    # print(len(listData))
     return listData
 
 
@@ -244,7 +244,7 @@ def getAllDataInfireBase():
 def getDataByTime():
     # objectData = ref.get()
     listData = getAllDataInfireBase()
-    type = 'DAY'
+    type = 'MONTH'
     if type == 'DAY':
         dateTimeStart = datetime.combine(datetime.now(), time.min)
         dateUnixTimeStart = int(dateTimeStart.timestamp())
@@ -277,12 +277,22 @@ def getDataByTime():
                     t24n = t24n + 1
                 elif data['predict'] == 'with_mask':
                     t24y = t24y + 1
-    listDataMask = [0, t6y, t12y, t18y, t24y]
-    listDataWithoutMask = [0, t6n, t12n, t18n, t24n]
-    return {
-        "mask": str(listDataMask),
-        "withoutMask": str(listDataWithoutMask)
-    }
+        listDataMask = [0, t6y, t12y, t18y, t24y]
+        listDataWithoutMask = [0, t6n, t12n, t18n, t24n]
+        return {
+            "mask": str(listDataMask),
+            "withoutMask": str(listDataWithoutMask)
+        }
+    else:
+        data = getAllDataInfireBase
+        resp = []
+        for data in listData:
+            obj = {
+                "lable": data["predict"],
+                "time": data["time"]
+            }
+            resp.append(obj)
+        return resp
 
 
 def insertData(x, y, w, h, label, nowTime, img, confirmedLable):
