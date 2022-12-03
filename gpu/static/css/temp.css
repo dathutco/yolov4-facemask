@@ -336,3 +336,35 @@ body {
     justify-content: center;
     margin: 10px 0;
 }
+
+.block-btn__link {
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.block-btn__text-img {
+    color: #d32ca9 !important;
+}
+
+.block-btn__text {
+    margin-left: 10px;
+}
+
+.block-btn__img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.pt-20 {
+    padding-top: 20px;
+}
+
+.frame-function {
+    display: flex;
+    width: 400px;
+    height: 120px;
+    align-items: center;
+    justify-content: space-evenly;
+}
