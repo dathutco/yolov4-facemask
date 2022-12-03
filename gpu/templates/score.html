@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <title>Score</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.min.css') }}">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 <style>
     .container {
@@ -11,6 +12,21 @@
 </style>
 
 <body>
+    <div
+        style="display: flex;justify-content: space-between;padding: 20px 30px; align-items: center;width: 100%;background-color: #2f323e;">
+        <div class="">
+            <h4 class="page-title" style="color: #fff; text-transform: uppercase; font-weight: bold; font-size: 24px;">
+                Thống kê</h4>
+        </div>
+        <div class="">
+            <div class="d-md-flex">
+                <a href="/" target="_blank" style="width: 200px;"
+                    class="btn btn-danger  d-none d-md-block pull-right ms-3 hidden-xs hidden-sm waves-effect waves-light text-white">
+                    <i class="fa fa-share" style="margin-right:6px"></i> Trang chủ</a>
+            </div>
+        </div>
+    </div>
+    </div>
     <div class="container">
         <div class="item">
             <div class="accurracy-chart" style="width:600px;height:500px;display: inline-block;">

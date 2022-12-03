@@ -52,9 +52,9 @@
                             <ol class="breadcrumb ms-auto">
                                 <li><a href="#" class="fw-normal"></a></li>
                             </ol>
-                            <a href="/" target="_blank"
-                                class="btn btn-danger  d-none d-md-block pull-right ms-3 hidden-xs hidden-sm waves-effect waves-light text-white">Recognization
-                                Face Mark</a>
+                            <a href="/" target="_blank" style="width: 200px;"
+                                class="btn btn-danger  d-none d-md-block pull-right ms-3 hidden-xs hidden-sm waves-effect waves-light text-white">
+                                <i class="fa fa-share" style="margin-right:6px"></i> Trang chủ</a>
                         </div>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                                             style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
                                     </div>
                                 </li>
-                                <li class="ms-auto"><span class="counter text-success">659</span></li>
+                                <li class="ms-auto"><span class="counter text-success js-with-mark">659</span></li>
                             </ul>
                         </div>
                     </div>
@@ -85,7 +85,7 @@
                                             style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
                                     </div>
                                 </li>
-                                <li class="ms-auto"><span class="counter text-info">911</span>
+                                <li class="ms-auto"><span class="counter text-info js-without-mark">911</span>
                                 </li>
                             </ul>
                         </div>
@@ -156,6 +156,10 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        const textWithMark = $('.js-with-mark');
+        const textWithoutMark = $('.js-without-mark');
+        // textWithMark.text(1111)
+        console.log(textWithMark.text())
         const URL = 'http://127.0.0.1:30701/ui';
         jQuery.ajax({
             url: URL + '/get-all-data',
@@ -184,7 +188,8 @@
             if (barChartCanvas !== undefined) {
                 barChartCanvas.destroy();
             }
-
+            textWithMark.text(dataRecognizations[0])
+            textWithoutMark.text(dataRecognizations[1])
             const labels = [
                 'Mask',
                 'Without Mask',
