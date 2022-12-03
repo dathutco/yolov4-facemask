@@ -15,6 +15,7 @@ from datetime import datetime, time
 from functools import lru_cache
 from flask_cors import CORS
 import json
+import ast
 
 # Create Flask Server Backend
 app = Flask(__name__)
@@ -129,7 +130,7 @@ def image():
     if request.method == 'POST':
         isVideo = False
         if (request.args != None):
-            isVideo = bool(request.args.getlist('save')[0])
+            isVideo = ast.literal_eval(request.args.getlist('save')[0])
             saveFile = request.args.getlist('isVideo')[0]
         # Take request
         name = f"{datetime.now().strftime(formatDatetime)}"
@@ -175,7 +176,7 @@ def image():
             objectInFireBase.append(h)
             objectInFireBase.append(label)
             objectInFireBase.append(nowTime)
-            objectInFireBase.append(img.filename)
+            objectInFireBase.append(name+".jpg")
 
         pathsave = os.path.join(app.config['LABEL'], f"{name}.txt")
         if (saveFile != 'VIDEO'):
@@ -183,7 +184,7 @@ def image():
         if (isVideo == True and len(objectInFireBase) > 6):
             insertData(objectInFireBase[0], objectInFireBase[1], objectInFireBase[2], objectInFireBase[3],
                        objectInFireBase[4], objectInFireBase[5], objectInFireBase[6], objectInFireBase[4])
-        # f.close()
+            # f.close()
         print(f"to:   {datetime.now().strftime(formatDatetime)}")
         return res
     return {}
@@ -235,13 +236,14 @@ def getAllDataInfireBase():
     print("run cache")
     objectData = ref.get()
     listData = objectData.values()
+    print(len(listData))
     return listData
 
 
 @app.route('/ui/get-data-by-time', methods=['GET'])
 def getDataByTime():
-    objectData = ref.get()
-    listData = objectData.values()
+    # objectData = ref.get()
+    listData = getAllDataInfireBase()
     type = 'DAY'
     if type == 'DAY':
         dateTimeStart = datetime.combine(datetime.now(), time.min)

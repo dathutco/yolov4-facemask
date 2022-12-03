@@ -71,8 +71,8 @@
                     pieChartPrecistion(precision);
                     pieChartRecall(recall);
                 },
-                error: function (e) {
-                    alert(e)
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
                 }
             });
         }

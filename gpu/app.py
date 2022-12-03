@@ -4,7 +4,11 @@ import cv2
 import requests
 from werkzeug.utils import secure_filename
 import os
+from flask_cors import CORS
+
+# Create Flask Server Backend
 app = Flask(__name__)
+cors = CORS(app, resources={r"/change-status-save-db/*": {"origins": "*"}})
 
 address = "http://127.0.0.1:30701"
 colors = {"with_mask": (0, 255, 0), "without_mask": (0, 0, 255)}
@@ -15,6 +19,7 @@ UPLOAD_FOLDER = '/static/img'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+IS_SAVE_DB = False
 
 
 def draw(img, label, confidence, x, y, x_plus_w, y_plus_h):
@@ -56,8 +61,9 @@ def gen(isSave):
         _, im_with_type = cv2.imencode(".jpg", frame)
         byte_im = im_with_type.tobytes()
         files = {'file': byte_im}
+        print(IS_SAVE_DB)
         rp = requests.post(address+"?isVideo=VIDEO&save=" +
-                           str(isSave), files=files)
+                           str(IS_SAVE_DB), files=files)
         frame = process(rp, frame)
 
         if not ret:
@@ -85,7 +91,7 @@ def recognizePage():
 
 @app.route('/video_feed')
 def video_feed():
-    isSave = False
+    isSave = IS_SAVE_DB
     return Response(gen(isSave),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
@@ -141,6 +147,19 @@ def upload_file(file):
 @app.route('/display/<filename>')
 def display_image(filename):
     return redirect(url_for('static', filename='upload/' + filename), code=301)
+
+
+@app.route('/change-status-save-db', methods=['POST'])
+def changeStatus():
+    global IS_SAVE_DB
+    if (IS_SAVE_DB == False):
+        IS_SAVE_DB = True
+    else:
+        IS_SAVE_DB = False
+    return {
+        "status": "success",
+        "code": 200
+    }
 
 
 @app.route('/video')

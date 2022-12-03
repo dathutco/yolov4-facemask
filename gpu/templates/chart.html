@@ -167,6 +167,9 @@
             success: function (data) {
                 drawChart(Object.values(data))
                 // console.log(data)
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
             }
         });
         setInterval(callAPI, 10000);
@@ -180,6 +183,9 @@
                 success: function (data) {
                     drawChart(Object.values(data))
 
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
                 }
             });
         }
@@ -229,10 +235,6 @@
 
         }
 
-
-
-
-        //////////////////////////////////
         listMask = [];
         listWithoutMask = [];
         jQuery.ajax({
