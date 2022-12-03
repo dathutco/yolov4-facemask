@@ -137,13 +137,6 @@ def upload_image():
         return render_template('loadImage.html', msg=ex)
 
 
-# @app.route('/user-confirm-label', methods=['GET'])
-# def userConfirm():
-#     predict = request.args.get('predict')
-#     key = bool(request.args.get('key'))
-#     return "hello"
-
-
 def upload_file(file):
     if file.filename == '':
         flash('No selected file')
