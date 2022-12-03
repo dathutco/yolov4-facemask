@@ -64,19 +64,19 @@ def gen():
                b'Content-Type: image/jpeg\r\n\r\n' + open('demo.jpg', 'rb').read() + b'\r\n')
 
 
-def generate_frames():
-    camera = cv2.VideoCapture("some_m3u8_link")
-    while True:
-        # read the camera frame
-        success, frame = camera.read()
-        if not success:
-            break
-        else:
-            ret, buffer = cv2.imencode('.jpg', frame)
-            frame = buffer.tobytes()
+# def generate_frames():
+#     camera = cv2.VideoCapture("some_m3u8_link")
+#     while True:
+#         # read the camera frame
+#         success, frame = camera.read()
+#         if not success:
+#             break
+#         else:
+#             ret, buffer = cv2.imencode('.jpg', frame)
+#             frame = buffer.tobytes()
 
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+#         yield (b'--frame\r\n'
+#                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 
 def allowed_file(filename):

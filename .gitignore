@@ -7,3 +7,9 @@ gpu/Model
 gpu/RecievedImg/
 need/ui
 /gpu/static/upload
+need/need/conMatrix
+need/need/data
+need/need/cfg
+need/need/static
+need/need/Model
+need/need/templates
