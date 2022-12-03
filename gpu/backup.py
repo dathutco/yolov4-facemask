@@ -14,8 +14,6 @@ from datetime import datetime, time
 
 from functools import lru_cache
 from flask_cors import CORS
-import json
-import ast
 
 # Create Flask Server Backend
 app = Flask(__name__)
@@ -129,9 +127,11 @@ def getLabel(dir, file):
 def image():
     if request.method == 'POST':
         isVideo = False
-        if (request.args != None):
-            isVideo = ast.literal_eval(request.args.getlist('save')[0])
-            saveFile = request.args.getlist('isVideo')[0]
+        isSaveFile = "IAMGE"
+        if (request.args != None and len(request.args.getlist('save')) > 0 and len(request.args.getlist('isVideo')) > 0):
+            isVideo = eval(request.args.getlist('save')[0])
+            print("isvideo: ", isVideo)
+            isSaveFile = request.args.getlist('isVideo')[0]
         # Take request
         name = f"{datetime.now().strftime(formatDatetime)}"
         print(f"from: {name}")
@@ -170,20 +170,19 @@ def image():
 
             info += f"{class_ids[i]} {x} {y} {w} {h}\n"
             nowTime = int(t.time())
-            objectInFireBase.append(x)
-            objectInFireBase.append(y)
-            objectInFireBase.append(w)
-            objectInFireBase.append(h)
-            objectInFireBase.append(label)
-            objectInFireBase.append(nowTime)
-            objectInFireBase.append(name+".jpg")
+            fileImage = name+".jpg"
+            listDB = [x, y, w, h, label, nowTime, fileImage]
+            objectInFireBase.append(listDB)
 
         pathsave = os.path.join(app.config['LABEL'], f"{name}.txt")
-        if (saveFile != 'VIDEO'):
-            saveFile(app.config['UPLOAD_FOLDER'], image, name, "jpg")
+        if (isSaveFile != 'VIDEO'):
+            path_to_save = saveFile(
+                app.config['UPLOAD_FOLDER'], image, name, "jpg")
+            re = cv2.imread(path_to_save)
         if (isVideo == True and len(objectInFireBase) > 6):
-            insertData(objectInFireBase[0], objectInFireBase[1], objectInFireBase[2], objectInFireBase[3],
-                       objectInFireBase[4], objectInFireBase[5], objectInFireBase[6], objectInFireBase[4])
+            l = len(objectInFireBase)
+            insertData(objectInFireBase[l-1][0], objectInFireBase[l-1][1], objectInFireBase[l-1][2], objectInFireBase[l-1][3],
+                       objectInFireBase[l-1][4], objectInFireBase[l-1][5], objectInFireBase[l-1][6], objectInFireBase[l-1][4])
             # f.close()
         print(f"to:   {datetime.now().strftime(formatDatetime)}")
         return res
@@ -195,20 +194,21 @@ def userConfirm():
     data = request.json
     # data = json.load(jsonData)
     predict = data['predict']
-    key = bool(data['key'])
+    key = eval(data['key'])
+    l = len(objectInFireBase)
     if (predict == 'without_mask'):
         if (key == True):
-            objectInFireBase.append('without_mask')
+            objectInFireBase[l-1].append('without_mask')
         else:
-            objectInFireBase.append('with_mask')
+            objectInFireBase[l-1].append('with_mask')
     else:
         if (key == True):
-            objectInFireBase.append('with_mask')
+            objectInFireBase[l-1].append('with_mask')
         else:
-            objectInFireBase.append('without_mask')
-    if (len(objectInFireBase) > 7):
-        insertData(objectInFireBase[0], objectInFireBase[1], objectInFireBase[2], objectInFireBase[3],
-                   objectInFireBase[4], objectInFireBase[5], objectInFireBase[6], objectInFireBase[7])
+            objectInFireBase[l-1].append('without_mask')
+    if (len(objectInFireBase[l-1]) > 7):
+        insertData(objectInFireBase[l-1][0], objectInFireBase[l-1][1], objectInFireBase[l-1][2], objectInFireBase[l-1][3],
+                   objectInFireBase[l-1][4], objectInFireBase[l-1][5], objectInFireBase[l-1][6], objectInFireBase[l-1][7])
     return {
         "resutl": True,
         "status": 200
