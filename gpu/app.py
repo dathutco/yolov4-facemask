@@ -85,7 +85,12 @@ def allowed_file(filename):
 
 @app.route('/')
 def home():
-    return render_template('./temp.html')
+    return render_template('./index.html')
+
+
+@app.route('/load-image')
+def recognizePage():
+    return render_template('./loadImage.html')
 
 
 @app.route('/video_feed')
@@ -101,32 +106,35 @@ def allowed_file(filename):
 
 @app.route('/send', methods=['POST'])
 def upload_image():
-    if 'file' not in request.files:
-        flash('No file part')
-        return redirect(request.url)
-    file = request.files['file']
-    # img_filename = upload_file(file)
+    try:
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # img_filename = upload_file(file)
 
-    URL = "http://127.0.0.1:30701"
-    params = request.files
-    response = requests.post(URL, files=params)
+        URL = "http://127.0.0.1:30701"
+        params = request.files
+        response = requests.post(URL, files=params)
 
-    if file and allowed_file(file.filename):
-        if response.status_code != 500 and response.ok:
-            my_json = response.content.decode('utf8').replace("'", '"')
-            data = json.loads(my_json)
-            s = json.dumps(data, indent=4, sort_keys=True)
-            listResponse = json.loads(s)
-            lable = listResponse[0][0]
-            img_filename = listResponse[0][6] + '.jpg'
-            result = ""
-            if lable == "without_mask":
-                result = WITHOUT_MASK
-            if lable == "with_mask":
-                result = WITH_MASK
+        if file and allowed_file(file.filename):
+            if response.status_code != 500 and response.ok:
+                my_json = response.content.decode('utf8').replace("'", '"')
+                data = json.loads(my_json)
+                s = json.dumps(data, indent=4, sort_keys=True)
+                listResponse = json.loads(s)
+                lable = listResponse[0][0]
+                img_filename = listResponse[0][6] + '.jpg'
+                result = ""
+                if lable == "without_mask":
+                    result = WITHOUT_MASK
+                if lable == "with_mask":
+                    result = WITH_MASK
 
-            return render_template('./index.html', filename=img_filename, result=result, lable=lable)
-        return "<h2>Can not regnization</h2>"
+                return render_template('./recognize.html', filename=img_filename, result=result, lable=lable)
+    except Exception as ex:
+        print(ex)
+        return render_template('loadImage.html', msg=ex)
 
 
 @app.route('/user-confirm-label', methods=['GET'])

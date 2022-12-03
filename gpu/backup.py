@@ -172,17 +172,7 @@ def image():
             objectInFireBase.append(label)
             objectInFireBase.append(nowTime)
             objectInFireBase.append(img.filename)
-            # insertData(x, y, w, h, label, nowTime, img.filename)
-
         pathsave = os.path.join(app.config['LABEL'], f"{name}.txt")
-
-        # if os.listdir(app.config['UPLOAD_FOLDER']):
-        #     last = datetime.strptime(os.listdir(
-        #         app.config['UPLOAD_FOLDER'])[-1].split('.')[0], formatDatetime)
-        # else:
-        #     last = datetime.min
-        # now = datetime.strptime(name, formatDatetime)
-
         path_to_save = saveFile(
             app.config['UPLOAD_FOLDER'], image, name, "jpg")
 
@@ -192,26 +182,7 @@ def image():
     return {}
 
 
-# @app.route('/resetValidate', methods=['GET'])
-# def resetValidate():
-#     data = {'predict': [], 'label': []}
-#     df = pd.DataFrame(data=data)
-
-#     mask = os.listdir(dirMask)
-#     nomask = os.listdir(dirNoMask)
-#     for i, j in zip(mask, nomask):
-#         rowi = getLabel(dirMask, i)
-#         rowj = getLabel(dirNoMask, j)
-#         df.loc[len(df.index)] = rowi
-#         df.loc[len(df.index)] = rowj
-#     """
-#     Then save to table
-#     """
-#     json_data = df.to_json(orient='values')
-#     return json_data
-
-
-@app.route('/user-confirm-label', methods=['POST'])
+@app.route('/ui/user-confirm-label', methods=['POST'])
 def userConfirm():
     predict = request.form['predict']
     key = bool(request.form['key'])
@@ -260,8 +231,6 @@ def getDataByTime():
     listData = objectData.values()
     type = 'DAY'
     if type == 'DAY':
-        # dateTimeEnd = datetime.combine(datetime.now(), time.max)
-        # dateUnixTimeEnd = int(dateTimeEnd.timestamp())
         dateTimeStart = datetime.combine(datetime.now(), time.min)
         dateUnixTimeStart = int(dateTimeStart.timestamp())
         t6y = 0
@@ -333,29 +302,6 @@ def score():
     matrix = ConfusionMatrix(df)
     acc, recall, precision, f1 = matrix.allScore()
     return {"accuracy": acc, "recall": recall, "precision": precision, "f1-score": f1}
-
-
-# @app.route('/validate', methods=['GET'])
-# def validate():
-#     predict = request.form.get('predict')
-#     key = bool(request.form.get('key'))
-
-#     if (key == True):
-#         label = predict
-#     else:
-#         if (predict == str(classes[0])):
-#             label = str(classes[1])
-#         else:
-#             label = str(classes[0])
-
-#     """
-#     edit database
-#     """
-#     data = {'predict': ["with_mask"], 'label': ["with_mask"]}
-#     df = pd.DataFrame(data=data)
-#     df.loc[len(df.index)] = [predict, label]
-
-#     return [predict, label]
 
 
 @app.route('/video', methods=['POST'])

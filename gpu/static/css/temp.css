@@ -312,3 +312,27 @@ body {
     border-color: #64a5ef;
     box-shadow: none !important;
 }
+
+.form-check-label {
+    font-size: 14px;
+    color: #333;
+    font-weight: bold;
+}
+
+.form-confirm {
+    display: block;
+}
+
+.form-check {
+    position: relative;
+    display: block;
+    top: 0;
+    left: 48%;
+}
+
+.block-btn {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin: 10px 0;
+}

@@ -28,11 +28,8 @@
                 <span class="result_id">{{ msg }}</span>
                 <hr>
                 {% endif %}
-                {% if msgSuccess %}
-                <span class="result_id">{{ msgSuccess }}</span>
-                <hr>
-                {% endif %}
-                <form action="/process" method="POST" enctype="multipart/form-data">
+
+                <form action="/send" method="POST" enctype="multipart/form-data">
                     <div class="container text-center mb-1">
                         <div class="row">
                             <div class="col-md-12">
@@ -71,21 +68,6 @@
         crossorigin="anonymous"></script>
 
     <script type="text/javascript" src="{{ url_for('static', filename='js/fileInput.js') }}"></script>
-    <script>
-        let ball = document.querySelector(".btn-js");
-        var myVar = setInterval(spostaDiv, 200);
-        var margin = 0;
-        let l = window.screen.width;
-        let w = 1300; function spostaDiv() {
-            if (margin >= w) {
-                margin = 0;
-            } else {
-                ball.style.marginLeft = margin + "px";
-            }
-            margin += 5;
-        }
-
-    </script>
 </body>
 
 </html>
