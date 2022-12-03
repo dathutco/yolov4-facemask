@@ -137,11 +137,11 @@ def upload_image():
         return render_template('loadImage.html', msg=ex)
 
 
-@app.route('/user-confirm-label', methods=['GET'])
-def userConfirm():
-    predict = request.args.get('predict')
-    key = bool(request.args.get('key'))
-    return "hello"
+# @app.route('/user-confirm-label', methods=['GET'])
+# def userConfirm():
+#     predict = request.args.get('predict')
+#     key = bool(request.args.get('key'))
+#     return "hello"
 
 
 def upload_file(file):
@@ -156,7 +156,7 @@ def upload_file(file):
 
 @app.route('/display/<filename>')
 def display_image(filename):
-    return redirect(url_for('static', filename='img/' + filename), code=301)
+    return redirect(url_for('static', filename='upload/' + filename), code=301)
 
 
 @app.route('/video')

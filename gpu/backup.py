@@ -20,7 +20,7 @@ app = Flask(__name__)
 cors = CORS(app, resources={r"/ui/*": {"origins": "*"}})
 
 # load label
-app.config['UPLOAD_FOLDER'] = "static/img"
+app.config['UPLOAD_FOLDER'] = "static/upload"
 app.config['LABEL'] = "RecievedLabel"
 app.config['VIDEO'] = "RecievedVideo"
 
