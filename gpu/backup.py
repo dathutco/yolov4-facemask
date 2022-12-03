@@ -176,12 +176,12 @@ def image():
 
         pathsave = os.path.join(app.config['LABEL'], f"{name}.txt")
 
-        if os.listdir(app.config['UPLOAD_FOLDER']):
-            last = datetime.strptime(os.listdir(
-                app.config['UPLOAD_FOLDER'])[-1].split('.')[0], formatDatetime)
-        else:
-            last = datetime.min
-        now = datetime.strptime(name, formatDatetime)
+        # if os.listdir(app.config['UPLOAD_FOLDER']):
+        #     last = datetime.strptime(os.listdir(
+        #         app.config['UPLOAD_FOLDER'])[-1].split('.')[0], formatDatetime)
+        # else:
+        #     last = datetime.min
+        # now = datetime.strptime(name, formatDatetime)
 
         path_to_save = saveFile(
             app.config['UPLOAD_FOLDER'], image, name, "jpg")
