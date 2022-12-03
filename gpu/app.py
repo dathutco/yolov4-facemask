@@ -25,22 +25,25 @@ def draw(img, label, confidence, x, y, x_plus_w, y_plus_h):
 
 
 def process(rp, image):
-    a = rp.split(']')
-    for lst in a:
-        if lst[2:] != "":
-            lst = lst[2:].replace('\"', "").replace('[', "").split(",")
-            label, x, y, w, h, confidence = lst
-            label = label.strip()
-            try:
-                x = float(x)
-                y = float(y)
-                h = float(h)
-                w = float(w)
-                confidence = float(confidence)
-            except:
-                pass
-            draw(image, label, confidence, round(x),
-                 round(y), round(x + w), round(y + h))
+    # a = rp.split(']')
+    my_json = rp.content.decode('utf8').replace("'", '"')
+    data = json.loads(my_json)
+    s = json.dumps(data, indent=4, sort_keys=True)
+    listResponse = json.loads(s)
+    if (len(listResponse) > 0 and len(listResponse[0]) > 4):
+        try:
+            label = listResponse[0][0]
+            x = float(listResponse[0][1])
+            y = float(listResponse[0][2])
+            h = float(listResponse[0][3])
+            w = float(listResponse[0][4])
+            confidence = float(listResponse[0][5])
+        except:
+            pass
+        draw(image, label, confidence, round(x),
+             round(y), round(x + w), round(y + h))
+    else:
+        pass
     return image
 
 
@@ -53,7 +56,7 @@ def gen():
         byte_im = im_with_type.tobytes()
         files = {'file': byte_im}
         rp = requests.post(address, files=files)
-        frame = process(rp.text, frame)
+        frame = process(rp, frame)
 
         if not ret:
             print("Error: failed to capture image")
