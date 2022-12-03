@@ -35,8 +35,8 @@ def process(rp, image):
             label = listResponse[0][0]
             x = float(listResponse[0][1])
             y = float(listResponse[0][2])
-            h = float(listResponse[0][3])
-            w = float(listResponse[0][4])
+            h = float(listResponse[0][4])
+            w = float(listResponse[0][3])
             confidence = float(listResponse[0][5])
         except:
             pass
@@ -47,7 +47,8 @@ def process(rp, image):
     return image
 
 
-def gen():
+def gen(isSave):
+
     cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
     while True:
@@ -55,10 +56,8 @@ def gen():
         _, im_with_type = cv2.imencode(".jpg", frame)
         byte_im = im_with_type.tobytes()
         files = {'file': byte_im}
-        params = {
-            "type": "VIDEO"
-        }
-        rp = requests.post(address+"?save=True", files=files)
+        rp = requests.post(address+"?isVideo=VIDEO&save=" +
+                           str(isSave), files=files)
         frame = process(rp, frame)
 
         if not ret:
@@ -86,7 +85,8 @@ def recognizePage():
 
 @app.route('/video_feed')
 def video_feed():
-    return Response(gen(),
+    isSave = False
+    return Response(gen(isSave),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 

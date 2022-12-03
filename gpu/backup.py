@@ -130,6 +130,7 @@ def image():
         isVideo = False
         if (request.args != None):
             isVideo = bool(request.args.getlist('save')[0])
+            saveFile = request.args.getlist('isVideo')[0]
         # Take request
         name = f"{datetime.now().strftime(formatDatetime)}"
         print(f"from: {name}")
@@ -168,7 +169,6 @@ def image():
 
             info += f"{class_ids[i]} {x} {y} {w} {h}\n"
             nowTime = int(t.time())
-
             objectInFireBase.append(x)
             objectInFireBase.append(y)
             objectInFireBase.append(w)
@@ -178,8 +178,8 @@ def image():
             objectInFireBase.append(img.filename)
 
         pathsave = os.path.join(app.config['LABEL'], f"{name}.txt")
-        path_to_save = saveFile(
-            app.config['UPLOAD_FOLDER'], image, name, "jpg")
+        if (saveFile != 'VIDEO'):
+            saveFile(app.config['UPLOAD_FOLDER'], image, name, "jpg")
         if (isVideo == True and len(objectInFireBase) > 6):
             insertData(objectInFireBase[0], objectInFireBase[1], objectInFireBase[2], objectInFireBase[3],
                        objectInFireBase[4], objectInFireBase[5], objectInFireBase[6], objectInFireBase[4])
