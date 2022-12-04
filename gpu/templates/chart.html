@@ -136,11 +136,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-12">
-                        <canvas id="chartjs" width="100%" height="100%"></canvas>
-                    </div>
-                </div>
+
             </div>
             <footer class="footer text-center"> 2022 © Data Engineering <a href="#">HCMUTE</a>
             </footer>
@@ -261,57 +257,7 @@
             url: URL + '/get-data-by-time',
             type: 'GET',
             success: function (data) {
-                // listMask = JSON.parse(data['mask'])
-                // listWithoutMask = JSON.parse(data['withoutMask'])
-                // drawChart2(listMask, listWithoutMask)
-                let dataset = data.reduce((callback, item) => {
-                    const unixTimeStamp = item["time"] * 1000;
-                    let obj = {
-                        "label": item["label"],
-                        "date": getDate(unixTimeStamp),
-                        "month": getMonth(unixTimeStamp) + 1,
-                        "year": getYear(unixTimeStamp)
-                    }
-                    return [...callback, obj]
-                }, []);
-                const dataByYear = _.groupBy(dataset, 'year');
-                function getDataGroupByMonthAndYear(paramYear) {
-                    const dataGroupByYear = _.groupBy(dataByYear[paramYear], 'month')
-                    let response = {};
-                    for (let i = 1; i <= 12; i++) {
-                        let data = dataGroupByYear[i.toString()];
-                        let indexWithMark = 0;
-                        let indexWithoutMark = 0;
-                        if (data != undefined) {
-                            for (let j = 0; j < data.length; j++) {
-                                if (data[j]["label"] == 'without_mask') {
-                                    indexWithoutMark++;
-                                } else {
-                                    if (data[j]["label"] == 'with_mask') {
-                                        indexWithMark++;
-                                    }
-                                }
-                            }
-                        }
-                        result = {
-                            "mask": indexWithMark,
-                            "withoutMask": indexWithoutMark
-                        }
-                        let key = i.toString();
-                        response[key] = result;
-                    }
-                    return response;
-                }
-                console.log(getDataGroupByMonthAndYear(2021));
-                const chartjs = document.getElementById('chartjs');
-                const context = chartjs.getContext('2d');
-                // const yourChart = new Chart(context, {
-                //     type: 'line',
-                //     data: {
-                //         labels: _.map(Object.keys(dataByMonths), (month) => `Month ${month}`),
-                //         datasets: dataset.map((item) => ({ label: 'test', data: 10 }))
-                //     }
-                // })
+                drawChart2(data);
             }
         });
         setInterval(callAPI2, 10000);
@@ -320,14 +266,24 @@
                 url: URL + '/get-data-by-time',
                 type: 'GET',
                 success: function (data) {
-
-                    // listMask = JSON.parse(data['mask'])
-                    // listWithoutMask = JSON.parse(data['withoutMask'])
-                    // drawChart2(listMask, listWithoutMask)
+                    drawChart2(data);
                 }
             });
         }
-        function drawChart2(dataMasks, dataWithoutMask) {
+        function drawChart2(listData) {
+            let dataset = listData.reduce((callback, item) => {
+                const unixTimeStamp = item["time"] * 1000;
+                let obj = {
+                    "label": item["label"],
+                    "date": getDate(unixTimeStamp),
+                    "month": getMonth(unixTimeStamp) + 1,
+                    "year": getYear(unixTimeStamp)
+                }
+                return [...callback, obj]
+            }, []);
+            const dataByYear = _.groupBy(dataset, 'year');
+
+            const figure = getDataGroupByMonth(12, 2022, dataByYear);
             const ctxLine = document.getElementById('myChart2');
             const CHART_COLORS = {
                 red: 'rgb(255, 99, 132)',
@@ -343,27 +299,39 @@
                 barChartCanvas2.destroy();
             }
 
-            const labels = ["0 AM", "6 AM", "12 PM", "18 PM", "24 PM"];
+            const labels = Object.keys(figure);
+            const valuesOfData = Object.values(figure);
+            const result = valuesOfData.reduce((call, fun) => {
+                let indexWith = fun["mask"];
+                let indexWithout = fun["withoutMask"];
 
+                return {
+                    "with": [...call["with"], indexWith],
+                    "without": [...call["without"], indexWithout]
+                }
+
+            }, {
+                "with": [],
+                "without": []
+            });
             const data = {
                 labels: labels,
                 datasets: [
                     {
                         label: 'With Face Mask',
-                        data: dataMasks,
+                        data: result["with"],
                         borderColor: CHART_COLORS.red,
                         backgroundColor: 'rgba(255, 99, 132, 0.5)',
                     },
                     {
                         label: 'Without Face Mask',
-                        data: dataWithoutMask,
+                        data: result["without"],
                         borderColor: CHART_COLORS.blue,
                         backgroundColor: 'rgba(54, 162, 235, 0.5)',
                     }
                 ]
             };
 
-            console.log(data)
             barChartCanvas2 = new Chart(ctxLine, {
                 type: 'line',
                 data: data,
@@ -375,7 +343,7 @@
                         },
                         title: {
                             display: true,
-                            text: 'Chart by Day'
+                            text: 'Line chart with mask and without mark'
                         }
                     }
                 },
@@ -383,6 +351,66 @@
 
         }
 
+        function getDataGroupByMonthAndYear(paramYear, dataByYear) {
+            const dataGroupByYear = _.groupBy(dataByYear[paramYear], 'month')
+            let response = {};
+            for (let i = 1; i <= 12; i++) {
+                let data = dataGroupByYear[i.toString()];
+                let indexWithMark = 0;
+                let indexWithoutMark = 0;
+                if (data != undefined) {
+                    for (let j = 0; j < data.length; j++) {
+                        if (data[j]["label"] == 'without_mask') {
+                            indexWithoutMark++;
+                        } else {
+                            if (data[j]["label"] == 'with_mask') {
+                                indexWithMark++;
+                            }
+                        }
+                    }
+                }
+                result = {
+                    "mask": indexWithMark,
+                    "withoutMask": indexWithoutMark
+                }
+                let key = i.toString();
+                response[key] = result;
+            }
+            return response;
+        }
+        function getDataGroupByMonth(paramMonth, paramYear, dataByYear) {
+            const dataGroupByYear = _.groupBy(dataByYear[paramYear], 'month')
+            let response = {};
+            let dataRoot = dataGroupByYear[paramMonth.toString()];
+            let dateNew = _.groupBy(dataRoot, 'date')
+            const numberDaysOfMonth = getDaysInMonth(paramYear, paramMonth);
+            for (let i = 1; i <= numberDaysOfMonth; i++) {
+                let data = dateNew[i.toString()];
+                let indexWithMark = 0;
+                let indexWithoutMark = 0;
+                if (data != undefined) {
+                    for (let j = 0; j < data.length; j++) {
+                        if (data[j]["label"] === 'without_mask') {
+                            indexWithoutMark++;
+                        } else {
+                            if (data[j]["label"] === 'with_mask') {
+                                indexWithMark++;
+                            }
+                        }
+                    }
+                }
+                result = {
+                    "mask": indexWithMark,
+                    "withoutMask": indexWithoutMark
+                }
+                let key = i.toString();
+                response[key] = result;
+            }
+            return response;
+        };
+        function getDaysInMonth(year, month) {
+            return new Date(year, month, 0).getDate();
+        }
 
     </script>
 </body>
