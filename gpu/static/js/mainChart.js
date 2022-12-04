@@ -91,7 +91,7 @@ listWithoutMask = [];
 const selectMonth = $(".select-month-js");
 const selectYear = $(".select-year-js");
 const date = new Date();
-changeTimeByMonth(date.getMonth() + 1, date.getFullYear());
+changeTimeByDay();
 setInterval(callAPI3, 10000);
 $(".btn-choose-js").click(callAPI3);
 function callAPI3() {
@@ -303,7 +303,7 @@ function getDataGroupByDate(dataByDate) {
       mask: indexWithMark,
       withoutMask: indexWithoutMark,
     };
-    let key = i.toString();
+    let key = i.toString() + " Giờ";
     response[key] = result;
   }
   return response;
@@ -331,7 +331,7 @@ function getDataGroupByMonthAndYear(paramYear, dataByYear) {
       mask: indexWithMark,
       withoutMask: indexWithoutMark,
     };
-    let key = i.toString();
+    let key = "Tháng " + i.toString();
     response[key] = result;
   }
   return response;
@@ -361,7 +361,7 @@ function getDataGroupByMonth(paramMonth, paramYear, dataByYear) {
       mask: indexWithMark,
       withoutMask: indexWithoutMark,
     };
-    let key = i.toString();
+    let key = "Ngày " + i.toString();
     response[key] = result;
   }
   return response;
