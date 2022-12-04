@@ -181,8 +181,8 @@ def image():
             re = cv2.imread(path_to_save)
         if (isVideo == True and len(objectInFireBase) > 6):
             l = len(objectInFireBase)
-            insertData(objectInFireBase[l-1][0], objectInFireBase[l-1][1], objectInFireBase[l-1][2], objectInFireBase[l-1][3],
-                       objectInFireBase[l-1][4], objectInFireBase[l-1][5], objectInFireBase[l-1][6], objectInFireBase[l-1][4])
+            insertData(objectInFireBase[0][0], objectInFireBase[0][1], objectInFireBase[0][2], objectInFireBase[0][3],
+                       objectInFireBase[0][4], objectInFireBase[0][5], objectInFireBase[0][6], objectInFireBase[0][4])
             # f.close()
         print(f"to:   {datetime.now().strftime(formatDatetime)}")
         return res
@@ -198,17 +198,17 @@ def userConfirm():
     l = len(objectInFireBase)
     if (predict == 'without_mask'):
         if (key == True):
-            objectInFireBase[l-1].append('without_mask')
+            objectInFireBase[0].append('without_mask')
         else:
-            objectInFireBase[l-1].append('with_mask')
+            objectInFireBase[0].append('with_mask')
     else:
         if (key == True):
-            objectInFireBase[l-1].append('with_mask')
+            objectInFireBase[0].append('with_mask')
         else:
-            objectInFireBase[l-1].append('without_mask')
-    if (len(objectInFireBase[l-1]) > 7):
-        insertData(objectInFireBase[l-1][0], objectInFireBase[l-1][1], objectInFireBase[l-1][2], objectInFireBase[l-1][3],
-                   objectInFireBase[l-1][4], objectInFireBase[l-1][5], objectInFireBase[l-1][6], objectInFireBase[l-1][7])
+            objectInFireBase[0].append('without_mask')
+    if (len(objectInFireBase[0]) > 7):
+        insertData(objectInFireBase[0][0], objectInFireBase[0][1], objectInFireBase[0][2], objectInFireBase[0][3],
+                   objectInFireBase[0][4], objectInFireBase[0][5], objectInFireBase[0][6], objectInFireBase[0][7])
     return {
         "resutl": True,
         "status": 200
