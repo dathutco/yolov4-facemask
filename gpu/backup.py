@@ -288,7 +288,7 @@ def getDataByTime():
         resp = []
         for data in listData:
             obj = {
-                "lable": data["predict"],
+                "label": data["predict"],
                 "time": data["time"]
             }
             resp.append(obj)
@@ -304,7 +304,7 @@ def insertData(x, y, w, h, label, nowTime, img, confirmedLable):
         'w': w,
         'h': h,
         'predict': label,
-        'time': nowTime,
+        'time': 1635992370,
         'image': img,
         'confirmedLable': confirmedLable
     })

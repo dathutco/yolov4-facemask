@@ -136,6 +136,11 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-12">
+                        <canvas id="chartjs" width="100%" height="100%"></canvas>
+                    </div>
+                </div>
             </div>
             <footer class="footer text-center"> 2022 © Data Engineering <a href="#">HCMUTE</a>
             </footer>
@@ -153,7 +158,9 @@
     <script
         src="{{url_for('static', filename='plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js')}}"></script>
     <script src="{{url_for('static', filename='js/pages/dashboards/dashboard1.js')}}"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"
+        integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         const textWithMark = $('.js-with-mark');
@@ -235,21 +242,16 @@
 
         }
         function getDate(timestamp) {
-            let date = new Date();
-            return date.getDate(timestamp);
-            // var day = date.getDay();
-            // var year = date.getYear();
-
-            // var formattedTime = month + '/' + day + '/' + year;
-            // return formattedTime;
-
+            const date = new Date(timestamp);
+            return date.getDate();
         }
         function getMonth(timestamp) {
-            let date = new Date();
-            return date.getMonth(timestamp) + 1;
+            const date = new Date(timestamp);
+            const month = date.getMonth();
+            return month;
         }
         function getYear(timestamp) {
-            let date = new Date();
+            const date = new Date(timestamp);
             return date.getFullYear(timestamp);
         }
 
@@ -262,16 +264,54 @@
                 // listMask = JSON.parse(data['mask'])
                 // listWithoutMask = JSON.parse(data['withoutMask'])
                 // drawChart2(listMask, listWithoutMask)
-                let kq = data.reduce((callback, item) => {
-                    obj = {
-                        "lable": item["lable"],
-                        "date": getDate(item["time"]),
-                        "month": getMonth(item["time"]),
-                        "year": getYear(item["time"])
+                let dataset = data.reduce((callback, item) => {
+                    const unixTimeStamp = item["time"] * 1000;
+                    let obj = {
+                        "label": item["label"],
+                        "date": getDate(unixTimeStamp),
+                        "month": getMonth(unixTimeStamp) + 1,
+                        "year": getYear(unixTimeStamp)
                     }
                     return [...callback, obj]
                 }, []);
-                console.log(kq)
+                const dataByYear = _.groupBy(dataset, 'year');
+                function getDataGroupByMonthAndYear(paramYear) {
+                    const dataGroupByYear = _.groupBy(dataByYear[paramYear], 'month')
+                    let response = {};
+                    for (let i = 1; i <= 12; i++) {
+                        let data = dataGroupByYear[i.toString()];
+                        let indexWithMark = 0;
+                        let indexWithoutMark = 0;
+                        if (data != undefined) {
+                            for (let j = 0; j < data.length; j++) {
+                                if (data[j]["label"] == 'without_mask') {
+                                    indexWithoutMark++;
+                                } else {
+                                    if (data[j]["label"] == 'with_mask') {
+                                        indexWithMark++;
+                                    }
+                                }
+                            }
+                        }
+                        result = {
+                            "mask": indexWithMark,
+                            "withoutMask": indexWithoutMark
+                        }
+                        let key = i.toString();
+                        response[key] = result;
+                    }
+                    return response;
+                }
+                console.log(getDataGroupByMonthAndYear(2021));
+                const chartjs = document.getElementById('chartjs');
+                const context = chartjs.getContext('2d');
+                // const yourChart = new Chart(context, {
+                //     type: 'line',
+                //     data: {
+                //         labels: _.map(Object.keys(dataByMonths), (month) => `Month ${month}`),
+                //         datasets: dataset.map((item) => ({ label: 'test', data: 10 }))
+                //     }
+                // })
             }
         });
         setInterval(callAPI2, 10000);
@@ -342,7 +382,6 @@
             });
 
         }
-
 
 
     </script>
