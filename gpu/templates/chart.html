@@ -118,13 +118,58 @@
                         <div class="white-box">
                             <div class="d-md-flex mb-3">
                                 <h3 class="box-title mb-0">Line chart</h3>
-                                <div class="col-md-3 col-sm-4 col-xs-6 ms-auto">
-                                    <select class="form-select shadow-none row border-top" name="timeOption">
-                                        <option value="DAY">Day</option>
-                                        <option value="WEEK">Week</option>
-                                        <option value="MONTH">Month</option>
-                                        <option value="YEAR">Year</option>
+                                <div class="col-md-1 col-sm-3 col-xs-2 ms-auto">
+                                </div>
+                                <div class="col-md-1 col-sm-3 col-xs-2 ms-auto">
+                                </div>
+                                <div class="col-md-1 col-sm-3 col-xs-2 ms-auto">
+                                </div>
+                                <div class="col-md-1 col-sm-3 col-xs-2 ms-auto">
+                                </div>
+                                <div class="col-md-1 col-sm-3 col-xs-2 ms-auto">
+                                </div>
+                                <div class="col-md-1 col-sm-3 col-xs-2 ms-auto">
+                                </div>
+                                <div class="col-md-1 col-sm-3 col-xs-2 ms-auto">
+                                </div>
+
+                                <div class="col-md-1 col-sm-3 col-xs-2 ms-auto">
+                                    <select style="color: red; font-size: 16px;font-weight: bold;"
+                                        class="form-select shadow-none row border-top" name="timeOption">
+                                        <option value="DAY">Ngày</option>
                                     </select>
+                                </div>
+
+                                <div class="col-md-1 col-sm-3 col-xs-2 ms-auto">
+                                    <select class="form-select shadow-none row border-top"
+                                        style="color: red; font-size: 16px;font-weight: bold;" name="timeOption">
+                                        <option value="1">Tháng 1</option>
+                                        <option value="2">Tháng 2</option>
+                                        <option value="3">Tháng 3</option>
+                                        <option value="4">Tháng 4</option>
+                                        <option value="5">Tháng 5</option>
+                                        <option value="6">Tháng 6</option>
+                                        <option value="7">Tháng 7</option>
+                                        <option value="8">Tháng 8</option>
+                                        <option value="9">Tháng 9</option>
+                                        <option value="10">Tháng 10</option>
+                                        <option value="11">Tháng 11</option>
+                                        <option value="12">Tháng 12</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1 col-sm-3 col-xs-2 ms-auto">
+                                    <select class="form-select shadow-none row border-top"
+                                        style="color: red; font-size: 16px;font-weight: bold;" name="timeOption">
+                                        <option value="2019">2019</option>
+                                        <option value="2020">2020</option>
+                                        <option value="2021">2021</option>
+                                        <option value="2022">2022</option>
+                                        <option value="2023">2023</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1 col-sm-3 col-xs-2 ms-auto">
+                                    <button type="button" class="btn btn-outline-success btn-choose-js">Xem đồ
+                                        thị</button>
                                 </div>
                             </div>
                             <div class="table-responsive">
@@ -253,37 +298,45 @@
 
         listMask = [];
         listWithoutMask = [];
-        jQuery.ajax({
-            url: URL + '/get-data-by-time',
-            type: 'GET',
-            success: function (data) {
-                drawChart2(data);
-            }
-        });
-        setInterval(callAPI2, 10000);
-        function callAPI2() {
+        changeTime(12, 2022);
+        function changeTime(pMonth, pYear) {
             jQuery.ajax({
                 url: URL + '/get-data-by-time',
                 type: 'GET',
                 success: function (data) {
-                    drawChart2(data);
+                    const listData = data;
+                    let dataset = listData.reduce((callback, item) => {
+                        const unixTimeStamp = item["time"] * 1000;
+                        let obj = {
+                            "label": item["label"],
+                            "date": getDate(unixTimeStamp),
+                            "month": getMonth(unixTimeStamp) + 1,
+                            "year": getYear(unixTimeStamp)
+                        }
+                        return [...callback, obj]
+                    }, []);
+                    const dataByYear = _.groupBy(dataset, 'year');
+                    const figure = getDataGroupByMonth(pMonth, pYear, dataByYear);
+                    drawChart2(figure)
                 }
             });
-        }
-        function drawChart2(listData) {
-            let dataset = listData.reduce((callback, item) => {
-                const unixTimeStamp = item["time"] * 1000;
-                let obj = {
-                    "label": item["label"],
-                    "date": getDate(unixTimeStamp),
-                    "month": getMonth(unixTimeStamp) + 1,
-                    "year": getYear(unixTimeStamp)
-                }
-                return [...callback, obj]
-            }, []);
-            const dataByYear = _.groupBy(dataset, 'year');
 
-            const figure = getDataGroupByMonth(12, 2022, dataByYear);
+        }
+        // callAPI2();
+        // setInterval(callAPI2, 10000);
+        function callAPI2() {
+            let response = [];
+            jQuery.ajax({
+                url: URL + '/get-data-by-time',
+                type: 'GET',
+                success: function (data) {
+                    response.push(data);
+                }
+            });
+            console.log(response)
+            return response[0];
+        }
+        function drawChart2(figure) {
             const ctxLine = document.getElementById('myChart2');
             const CHART_COLORS = {
                 red: 'rgb(255, 99, 132)',
