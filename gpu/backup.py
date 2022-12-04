@@ -242,57 +242,15 @@ def getAllDataInfireBase():
 
 @app.route('/ui/get-data-by-time', methods=['GET'])
 def getDataByTime():
-    # objectData = ref.get()
     listData = getAllDataInfireBase()
-    type = 'MONTH'
-    if type == 'DAY':
-        dateTimeStart = datetime.combine(datetime.now(), time.min)
-        dateUnixTimeStart = int(dateTimeStart.timestamp())
-        t6y = 0
-        t12y = 0
-        t18y = 0
-        t24y = 0
-        t6n = 0
-        t12n = 0
-        t18n = 0
-        t24n = 0
-        for data in listData:
-            if data["time"] >= dateUnixTimeStart and data["time"] <= (dateUnixTimeStart + 3600 * 6):
-                if data['predict'] == 'without_mask':
-                    t6n = t6n + 1
-                elif data['predict'] == 'with_mask':
-                    t6y = t6y + 1
-            elif data["time"] >= (dateUnixTimeStart + 3600 * 6) and data["time"] <= (dateUnixTimeStart + 3600 * 12):
-                if data['predict'] == 'without_mask':
-                    t12n = t12n + 1
-                elif data['predict'] == 'with_mask':
-                    t12y = t12y + 1
-            elif data["time"] >= (dateUnixTimeStart + 3600 * 12) and data["time"] <= (dateUnixTimeStart + 3600 * 18):
-                if data['predict'] == 'without_mask':
-                    t18n = t18n + 1
-                elif data['predict'] == 'with_mask':
-                    t18y = t18y + 1
-            elif data["time"] >= (dateUnixTimeStart + 3600 * 18) and data["time"] <= (dateUnixTimeStart + 3600 * 24):
-                if data['predict'] == 'without_mask':
-                    t24n = t24n + 1
-                elif data['predict'] == 'with_mask':
-                    t24y = t24y + 1
-        listDataMask = [0, t6y, t12y, t18y, t24y]
-        listDataWithoutMask = [0, t6n, t12n, t18n, t24n]
-        return {
-            "mask": str(listDataMask),
-            "withoutMask": str(listDataWithoutMask)
+    resp = []
+    for data in listData:
+        obj = {
+            "label": data["predict"],
+            "time": data["time"]
         }
-    else:
-        data = getAllDataInfireBase
-        resp = []
-        for data in listData:
-            obj = {
-                "label": data["predict"],
-                "time": data["time"]
-            }
-            resp.append(obj)
-        return resp
+        resp.append(obj)
+    return resp
 
 
 def insertData(x, y, w, h, label, nowTime, img, confirmedLable):
