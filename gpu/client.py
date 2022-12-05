@@ -16,7 +16,7 @@ def process(rp,image):
     for lst in a:
         if lst[2:]!="":
             lst=lst[2:].replace('\"',"").replace('[',"").split(",")
-            label,x,y,w,h,confidence= lst
+            label,x,y,w,h,confidence,name= lst
             label=label.strip()
             try:
                 x=float(x)
