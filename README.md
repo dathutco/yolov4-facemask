@@ -1,7 +1,11 @@
 # yolov4-facemask
-I will build model to api.
+## I build model to api.
 
-The Web allow user validate the accuracy of predicting label. Now, I just save image and file label (label, x,y,w,h) when the confidence >0.9.
+## The database is on FIREBASE.
+
+## The Web allow user validate the accuracy of predicting label. Now, I just save image and file label (label, x,y,w,h) when the confidence >0.9.
+
+## From this, you can think this project also has auto label for facemask.
 
 ## Demo: <a href="https://youtu.be/MyfZsegSEF4" target="_parent"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTys8opWKLszlrePXJAVYMHAGri48cYshFndw&usqp=CAU" width=30/></a>
 
