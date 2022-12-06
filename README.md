@@ -3,6 +3,8 @@ I will build model to api.
 
 The Web allow user validate the accuracy of predicting label. Now, I just save image and file label (label, x,y,w,h) when the confidence >0.9.
 
+## Demo: <a href="https://youtu.be/MyfZsegSEF4" target="_parent"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTys8opWKLszlrePXJAVYMHAGri48cYshFndw&usqp=CAU" width=30/></a>
+
 ## This is main Web:
 ![main Web](mainWeb.jpg)
 
@@ -62,4 +64,4 @@ On gpu dir, you can see $api.py$, $backup.py$, $client.py$ vs $newway.py$
 * $app.py: run on web
 * $conMatrix.py: class for using Validating Score
 
-This is my training:
+# This is my training: <a href="https://colab.research.google.com/github/Phatdat01/yolov4-facemask/blob/branch1/Run_FaceMask.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
