@@ -135,6 +135,11 @@ def image():
             nowTime = int(t.time())
             fileImage = name+".jpg"
             listDB = [x, y, w, h, label, nowTime, fileImage]
+            if (isSaveFile != 'VIDEO'):
+                draw(image, int(classid), float(score), round(x),
+                     round(y), round(x + w), round(y + h))
+                name2 = {datetime.now().strftime(formatDatetime)}
+                saveFile(app.config['UPLOAD_FOLDER'], image, name2, "jpg")
             objectInFireBase.append(listDB)
 
         if (isSaveFile != 'VIDEO'):
