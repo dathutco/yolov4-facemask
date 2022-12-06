@@ -3,9 +3,24 @@ I will build model to api.
 
 The Web allow user validate the accuracy of predicting label. Now, I just save image and file label (label, x,y,w,h) when the confidence >0.9.
 
-I save on local and Firebase (something wrong from Firebase so I push all to both, still tuning)
+## Demo: <a href="https://youtu.be/MyfZsegSEF4" target="_parent"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTys8opWKLszlrePXJAVYMHAGri48cYshFndw&usqp=CAU" width=30/></a>
 
-This project also have Data Visualization.
+## This is main Web:
+![main Web](mainWeb.jpg)
+
+## Beside that, I have darknet.exe file, it was built, that may help you check your computer's frame rate.
+## And the code client I just call API, but run on Winform.
+# This project also have Data Visualization.
+
+## This is model core page:
+![Score](score.jpg)
+
+## This is report page:
+![Report](report.jpg)
+
+For example: 
++ Show score of Confusion Matrix vs Validating Score (Accuracy,F1,...)
++ Num of With mask and No Mask in database,....
 
 # Requirement
 
@@ -42,8 +57,11 @@ On gpu dir, you can see $api.py$, $backup.py$, $client.py$ vs $newway.py$
 
 ## If you don't have GPU, run "backup" file, else see how to active opencv using GPU, run "new" file.
 
-* $backup.py$: for build a api, but it slow cause I write for cpu computer
-* $client.py$: file from user that want to use api
+* $backup.py$: File API on CPU
+* For $newway.py$: API on GPU
+* Darknet.exe: tool of darknet for testing yolo model
+* $client.py$: winform
 * $app.py: run on web
 * $conMatrix.py: class for using Validating Score
-* For $new.py$: this is improvement for api.py file.
+
+# This is my training: <a href="https://colab.research.google.com/github/Phatdat01/yolov4-facemask/blob/branch1/Run_FaceMask.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
