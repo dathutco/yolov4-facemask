@@ -16,7 +16,7 @@
 ## And the code client I just call API, but run on Winform.
 # This project also have Data Visualization.
 
-## This is model core page:
+## This is model score page:
 ![Score](score.jpg)
 
 ## This is report page:
